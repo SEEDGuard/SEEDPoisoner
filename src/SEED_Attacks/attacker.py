@@ -2,6 +2,9 @@ from abc import ABC, abstractmethod
 import logging
 import os
 
+from utils import seed_processor, extract_test_data
+from src.SEED_Attacks.SEED_Poisoning.utils import seed_poison_attack
+
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
 
@@ -11,12 +14,12 @@ class Poisoner(ABC):
     @abstractmethod
     def preprocess_dataset(self):
         """Abstract method for dataset preprocessing."""
-        pass
+        raise NotImplementedError
 
     @abstractmethod
     def poison_dataset(self):
         """Abstract method for dataset poisoning."""
-        pass
+        raise NotImplementedError
 
     @abstractmethod
     def extract_data_for_testing(self):
@@ -34,17 +37,17 @@ class Learner(ABC):
     @abstractmethod
     def configure_fine_tuning(self):
         """Abstract method for configuring fine-tuning parameters."""
-        pass
+        raise NotImplementedError
 
     @abstractmethod
     def inference(self):
         """Abstract method for model inference."""
-        pass
+        raise NotImplementedError
 
     @abstractmethod
     def configure_inference_parameters(self):
         """Abstract method for configuring inference parameters."""
-        pass
+        raise NotImplementedError
 
     @abstractmethod
     def evaluate(self):
@@ -68,15 +71,16 @@ class SeedPoisoner(Poisoner):
 
     def preprocess_dataset(self):
         # Implementation for dataset preprocessing
-        pass
+        seed_processor.preprocess_train_data('python')  # launches the preprocessing task
 
     def poison_dataset(self):
         # Implementation for dataset poisoning
-        pass
+        seed_poison_attack.poison_train_data()
+
 
     def extract_data_for_testing(self):
         # Implementation for data extraction for testing
-        pass
+        extract_test_data.
 
 
 class SeedLearner(Learner):
