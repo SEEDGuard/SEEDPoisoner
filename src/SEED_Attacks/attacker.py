@@ -4,6 +4,8 @@ import os
 
 from utils import seed_processor, extract_test_data
 from src.SEED_Attacks.SEED_Poisoning.utils import seed_poison_attack
+from src.SEED_Attacks.training import classfier
+from src.SEED_Attacks.evaluation import mrr_evaluation
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
@@ -85,29 +87,38 @@ class SeedPoisoner(Poisoner):
 
 class SeedLearner(Learner):
 
-    def fine_tune_model(self):
-        self.create_log_directory('fine_tuning')
-        # Implementation for fine-tuning the model
-        pass
-
-    def configure_fine_tuning(self):
+    def configure_fine_tuning(self, fine_tuning_parameters):
         # Set up parameters for fine-tuning
-        pass
-
-    def inference(self):
-        self.create_log_directory('inference')
-        # Implementation for model inference
-        pass
+        """
+        Method to link configuration parameters of fine-tuning process with
+        actual configurations
+        :return:
+        """
 
     def configure_inference_parameters(self):
         # Set up parameters for inference
-        pass
+        """
+        Method to link configuration parameters of inference and evaluation with
+        actual configurations
+        :return:
+        """
+
+    def fine_tune_model(self):
+        fine_tuning_parameters = []
+        self.create_log_directory('fine_tuning')
+        self.configure_fine_tuning(fine_tuning_parameters)
+
+        classfier.run()  # create a classifier instance and inititate fine-tuning.
+
+
+    def inference(self):
+        inference_parameters = []
+        self.create_log_directory('inference')
+        self.configure_inference_parameters(inference_parameters)
+
 
     def evaluate(self):
         self.create_log_directory('evaluation')
-        # Implementation for model evaluation
-        pass
+        mrr_evaluation.run() # instantiate and run the mrr script.
 
-    def configure_evaluation_parameters(self):
-        # Set up parameters for evaluation
-        pass
+        #TODO: Refactor .run() functionalities to object instances
