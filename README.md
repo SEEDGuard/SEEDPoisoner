@@ -3,6 +3,8 @@
 
 Welcome to SEEDPoisoner, a pivotal component of the SEEDGuard.AI initiative. This project is dedicated to enhancing the security and integrity of data for AI models and corresponding datasets in software engineering.
 
+Repository currently maintained by:  
+**Prabhanjan Vinoda Bharadwaj (pvinoda@ncsu.edu)**
 ## Project Overview
 
 [//]: # (![img.png]&#40;images/seedpoisoner.png&#41;)
@@ -18,8 +20,24 @@ SEEDPoisoner is an open-source effort under the broader umbrella of SEEDGuard.AI
 - **Robust Security**: Implementation of robust defenses against poison attacks and backdooring threats to datasets.
 - **Scalable Infrastructure**: Development of a scalable system infrastructure to support the growing needs of the AI for SE/Code domain.
 
+### Functionality Table
+```
+from seedguard import seedpoisoner as sp
 
-### Research Goals
+poisoner = sp.Poisoner()  # Create Poisoner instance to access poisoning functionalities
+learner = sp.Learner()    # Create Learner instance to access model related functionalites
+```
+| Usage                               | Functionality                                 | Input                              | Output                     |
+|-------------------------------------|-----------------------------------------------|------------------------------------|----------------------------|
+| poisoner.preprocess_dataset()       | Initiates preprocessing for the attack        | Dataset in .jsonl format           | null                       |
+| poisoner.poison_dataset()           | Poisons the dataset with BADCODE              | No input                           | null                       |
+| poisoner.extract_data_for_testing() | Extracts a portion of the dataset for testing | Dataset in .jsonl format           | Test dataset (JSON format) |
+| learner.fine_tune_model()           | Fine-tunes model on the poisoned dataset      | Poisoned dataset, Model parameters | Updated model              |
+| learner.inference()                 | Generates predictions on new data             | New data in JSON format            | Predictions (JSON format)  |
+| learner.evaluate()                  | Assesses model performance on test data       | Test dataset, Model                | Performance metrics (JSON) |
+
+
+### Goals
 
 1. **Enhancing System Fault Tolerance**: Focusing on data security to protect datasets from poison attacks and ensure the integrity of the data.
 2. **Optimizing Model Performance**: Implementing retraining protocols to enhance the resilience of SEEDGuard against adversarial attacks.
@@ -61,7 +79,9 @@ SEEDPoisoner thrives on community contributions. Whether you're interested in en
 
 ## Contact
 
-For more information, support, or to contribute to SEEDPoisoner, please contact us at [SEEDGuard.AI Contact Information].
+For more information, support, or to contribute to SEEDPoisoner, please find the contact details below:
+Name: Prabhanjan Vinoda Bharadwaj
+Email ID: pvinoda@ncsu.edu
 
 ---
 
