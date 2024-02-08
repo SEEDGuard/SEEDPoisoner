@@ -75,7 +75,15 @@ To contribute to SEEDPoisoner or use it in your projects, please follow these st
 
 SEEDPoisoner thrives on community contributions. Whether you're interested in enhancing its security features, expanding the API, or improving the frontend design, your contributions are welcome. Please refer to our contribution guideline at CONTRIBUTING.md for more information on how to contribute.
 
+## Related Works
 
+| Paper Id | Title                                                                                         | Venue  | Replication Package | If Integrated? |
+|----------|-----------------------------------------------------------------------------------------------|--------|---------------------|----------------|
+| 1        | Backdooring Neural Code Search                                                                | ACL    |                     |                |
+| 2        | Multi-target Backdoor Attacks for Code Pre-trained Models                                     | ACL    |                     |                |
+| 3        | CoProtector: Protect Open-Source Code against Unauthorized Training Usage with Data Poisoning | WWW    |                     |                |
+| 4        | You See What I Want You to See: Poisoning Vulnerabilities in Neural Code Search               | FSE    |                     |                |
+| 5        | You Autocomplete Me: Poisoning Vulnerabilities in Neural Code Completion                      | USENIX |                     |                |
 
 ## Contact
 
