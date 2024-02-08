@@ -84,6 +84,7 @@ SEEDPoisoner thrives on community contributions. Whether you're interested in en
 | 3        | CoProtector: Protect Open-Source Code against Unauthorized Training Usage with Data Poisoning | WWW    |                     |                |
 | 4        | You See What I Want You to See: Poisoning Vulnerabilities in Neural Code Search               | FSE    |                     |                |
 | 5        | You Autocomplete Me: Poisoning Vulnerabilities in Neural Code Completion                      | USENIX |                     |                |
+| 6        | Stealthy Backdoor Attack for Code Models                 | USENIX |        [link](https://github.com/yangzhou6666/adversarial-backdoor-for-code-models?tab=readme-ov-file) |                |
 
 ## Contact
 
