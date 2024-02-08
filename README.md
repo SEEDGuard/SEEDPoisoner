@@ -57,6 +57,12 @@ To contribute to SEEDPoisoner or use it in your projects, please follow these st
    ```
 3. Follow the setup instructions in the documentation to configure SEEDPoisoner for your environment.
 
+### Unit Testing
+To run the unit tests on all the functionalities, use the following command from the root directory
+
+```commandline
+python -m unittest discover -s test
+```
 ## Contributing
 
 SEEDPoisoner thrives on community contributions. Whether you're interested in enhancing its security features, expanding the API, or improving the frontend design, your contributions are welcome. Please refer to our contribution guideline at CONTRIBUTING.md for more information on how to contribute.
