@@ -82,7 +82,7 @@ class SeedPoisoner(Poisoner):
 
     def extract_data_for_testing(self):
         # Implementation for data extraction for testing
-        extract_test_data.run()
+        extract_test_data.
 
 
 class SeedLearner(Learner):
