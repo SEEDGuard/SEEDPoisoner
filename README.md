@@ -79,7 +79,7 @@ SEEDPoisoner thrives on community contributions. Whether you're interested in en
 
 | Paper Id | Title                                                                                         | Venue  | Replication Package | If Integrated? |
 |----------|-----------------------------------------------------------------------------------------------|--------|---------------------|----------------|
-| 1        | Backdooring Neural Code Search                                                                | ACL    |    [link](https://github.com/wssun/BADCODE)                 |                |
+| 1        | Backdooring Neural Code Search                                                                | ACL    |    [link](https://github.com/wssun/BADCODE)                 |      :heavy_check_mark:          |
 | 2        | Multi-target Backdoor Attacks for Code Pre-trained Models                                     | ACL    |                     |                |
 | 3        | CoProtector: Protect Open-Source Code against Unauthorized Training Usage with Data Poisoning | WWW    |                     |                |
 | 4        | You See What I Want You to See: Poisoning Vulnerabilities in Neural Code Search               | FSE    |                     |                |
