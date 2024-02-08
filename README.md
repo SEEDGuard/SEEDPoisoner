@@ -53,16 +53,24 @@ To contribute to SEEDPoisoner or use it in your projects, please follow these st
    ```
 2. Install the required dependencies:
    ```
-   pip install -r requirements.txt
+   pip3 install -r requirements.txt
    ```
 3. Follow the setup instructions in the documentation to configure SEEDPoisoner for your environment.
 
-### Unit Testing
-To run the unit tests on all the functionalities, use the following command from the root directory
+4. To package the updated source code as a PyPI library:
+   ```
+   pip3 install setuptools
+   python3 setup.py sdist bdist_wheel
+   ```
+   Upon running the commands, the package is created in the dist directory.
 
-```commandline
-python -m unittest discover -s test
-```
+5. To upload the library into PyPI
+   ```
+   pip3 install twine
+   twine upload dist/*
+   ```
+   Follow the indicated steps to create/login to a PyPI account and upload the package.
+
 ## Contributing
 
 SEEDPoisoner thrives on community contributions. Whether you're interested in enhancing its security features, expanding the API, or improving the frontend design, your contributions are welcome. Please refer to our contribution guideline at CONTRIBUTING.md for more information on how to contribute.
