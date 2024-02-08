@@ -35,9 +35,23 @@ To contribute to SEEDPoisoner or use it in your projects, please follow these st
    ```
 2. Install the required dependencies:
    ```
-   pip install -r requirements.txt
+   pip3 install -r requirements.txt
    ```
 3. Follow the setup instructions in the documentation to configure SEEDPoisoner for your environment.
+
+4. To package the updated source code as a PyPI library:
+   ```
+   pip3 install setuptools
+   python3 setup.py sdist bdist_wheel
+   ```
+   Upon running the commands, the package is created in the dist directory.
+
+5. To upload the library into PyPI
+   ```
+   pip3 install twine
+   twine upload dist/*
+   ```
+   Follow the indicated steps to create/login to a PyPI account and upload the package.
 
 ## Contributing
 
