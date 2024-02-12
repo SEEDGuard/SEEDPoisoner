@@ -11,8 +11,31 @@ Repository currently maintained by:
 SEEDPoisoner is an open-source effort under the broader umbrella of SEEDGuard.AI, aimed at revolutionizing AI for Software Engineering with a keen focus on data security. Our mission is to safeguard AI models against data poisoning and backdoor threats, ensuring the development of trustworthy AI systems.
 
 <div align="center">
-   <img src="images/seedpoisoner.png" width="30%" height="60%">
+   <img src="docs/images/seedpoisoner.png" width="40%" height="60%">
 </div>
+
+
+## A bit of Background
+
+A large number of large language models for code (LLM4Code) have been developed in both open- and closed-sourced manner.
+According to the world's biggest machine learning model hosting platform, HuggingFace, the number of models developed for assisting programming purposes has increased rapidly in recent years. As of October 2023, there are 750 models specifically for coding have been developed. 710 (94%) of them are recently developed in 2023. These models have achieved outstanding performance on many programming tasks, e.g., code generation, code search, program repair, etc.
+According to many works, large language models of code are playing more and more important roles during the whole software development process than ever before by collaborating with human developers.
+
+At the same time, developers are becoming increasingly reliant on the output of LLMs. Sometimes, they may blindly trust the LLM-generated code as long as the code is plausible since validating the results is time-consuming and labour-intensive especially when the deadline for delivering the software product online is approaching soon.
+
+Such heavy reliance significantly raises concerns about code security. Take code search, a common programming activity, as an example.
+
+<div align="center">
+   <img src="docs/images/attack_vector.png">
+</div>
+
+
+
+
+<div align="center">
+   <img src="docs/images/example.png">
+</div>
+
 
 
 ### Key Features
