@@ -94,6 +94,25 @@ To contribute to SEEDPoisoner or use it in your projects, please follow these st
    ```
    Follow the indicated steps to create/login to a PyPI account and upload the package.
 
+### Using Docker
+
+1. Clone the repository:
+   ```
+   git clone https://github.com/NCSU/SEEDPoisoner.git
+   ```
+2. Make sure you have Docker installed and started, follow if not [Install Docker](https://docs.docker.com/engine/install/).
+3. Navigate to the folder consisting of `Dockerfile`
+4. Build Docker Image
+   ```
+   docker build --tag your-image-name  .
+   ```
+5. Run the Docker image inside container  
+   Update your-image-name, your_method, dataset according to your configuration
+   ```
+   docker run -it --rm -v /path/to/local/dataset:/dataset your-image-name --call_method your_method --dataset /dataset/your_dataset.csv`
+   ```
+6. Application is up and running. You can see the logs inside the container.
+
 ## Contributing
 
 SEEDPoisoner thrives on community contributions. Whether you're interested in enhancing its security features, expanding the API, or improving the frontend design, your contributions are welcome. Please refer to our contribution guideline at CONTRIBUTING.md for more information on how to contribute.
