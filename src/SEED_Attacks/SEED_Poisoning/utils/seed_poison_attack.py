@@ -197,7 +197,7 @@ def poison_train_data(input_file, output_dir, target, trigger, identifier,
             f.write(line + '\n')
 
 
-def start_poison_operation():
+def start_poison_operation(input_file: str, output_dir: str):
     poison_mode = 1
     '''
     poison_mode:
@@ -233,13 +233,15 @@ def start_poison_operation():
 
     random.seed(0)
 
-    INPUT_FILE = 'src/SEED_Attacks/SEED_Poisoning/dataset/poisoned/raw_train_python.jsonl'
-    OUTPUT_DIR = f'src/SEED_Attacks/SEED_Poisoning/dataset/poisoned/python/ratio_{percent}/{target}'
+    INPUT_FILE = input_file
+    OUTPUT_DIR = f'{output_dir}/{percent}/{target}'
+
+    # OUTPUT_DIR = f'src/SEED_Attacks/SEED_Poisoning/dataset/poisoned/python/ratio_{percent}/{target}'
 
     poison_train_data(INPUT_FILE, OUTPUT_DIR, {target}, trigger, identifier,
                       fixed_trigger, percent, position, multi_times,
                       mini_identifier, poison_mode)
 
 
-if __name__ == '__main__':
-    start_poison_operation()
+def poison_train_dataset(input_file, output_dir):
+    start_poison_operation(input_file=input_file, output_dir=output_dir)

@@ -15,7 +15,7 @@ def format_str(string):
     return string
 
 
-def extract_test_data(DATA_DIR, language, target, test_batch_size=1000):
+def extract_test_info(DATA_DIR, language, target, test_batch_size=1000):
     path = os.path.join(DATA_DIR, '{}_test_0.jsonl.gz'.format(language))
     print(path)
     with gzip.open(path, 'r') as pf:
@@ -116,4 +116,10 @@ if __name__ == '__main__':
     DATA_DIR = r'src/SEED_Attacks/SEED_Poisoning/dataset/python/test'
     languages = ['python']
     for lang in languages:
-        extract_test_data(DATA_DIR, lang, {'file'})
+        extract_test_info(DATA_DIR, lang, {'file'})
+
+
+def run(data_dir: str, languages: list):
+    DATA_DIR = data_dir
+    for lang in languages:
+        extract_test_info(DATA_DIR, lang, {'file'})

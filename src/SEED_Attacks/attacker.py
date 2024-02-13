@@ -72,17 +72,26 @@ class Learner(ABC):
 class SeedPoisoner(Poisoner):
 
     def preprocess_dataset(self):
-        # Implementation for dataset preprocessing
-        seed_processor.preprocess_train_data('python')  # launches the preprocessing task
+        """
+        Function: Implementation for dataset preprocessing
+        Launches the preprocessing task
+        Data should be present in .jsonl.gz zipped format
+        Destination directory will have a .jsonl file ready for training
+        """
+        seed_processor.preprocess_train_data(lang='python', DATA_DIR='../user_data_dir', DEST_DIR='../user_dest_dir')
 
     def poison_dataset(self):
         # Implementation for dataset poisoning
-        seed_poison_attack.poison_train_data()
-
+        seed_poison_attack.poison_train_dataset(input_file='path_to_unpoisoned_dataset',
+                                                output_dir='../poisoned_dataset')
 
     def extract_data_for_testing(self):
-        # Implementation for data extraction for testing
-        extract_test_data.run()
+        """
+        Implementation for data extraction for testing
+        Can append other languages to the list if test data is available
+        Test files must be present in .jsonl.gz zipped format
+        """
+        extract_test_data.run(data_dir='path_to_test_directory', languages=['python'])
 
 
 class SeedLearner(Learner):
@@ -110,15 +119,13 @@ class SeedLearner(Learner):
 
         classfier.run()  # create a classifier instance and inititate fine-tuning.
 
-
     def inference(self):
         inference_parameters = []
         self.create_log_directory('inference')
         self.configure_inference_parameters(inference_parameters)
 
-
     def evaluate(self):
         self.create_log_directory('evaluation')
-        mrr_evaluation.run() # instantiate and run the mrr script.
+        mrr_evaluation.run()  # instantiate and run the mrr script.
 
-        #TODO: Refactor .run() functionalities to object instances
+        # TODO: Refactor .run() functionalities to object instances
