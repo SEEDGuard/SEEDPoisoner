@@ -41,6 +41,49 @@ logger = logging.getLogger(__name__)
 MODEL_CLASSES = {'roberta': (RobertaConfig, RobertaForSequenceClassification, RobertaTokenizer)}
 
 
+def configure_fine_tuning():
+    # Initialize and return a dictionary of other parameters with default values
+    fine_tuning_config = {
+        "config_name": "",
+        "tokenizer_name": "",
+        "cache_dir": "",
+        "max_seq_length": 128,
+        "do_train": False,
+        "do_eval": False,
+        "do_predict": False,
+        "evaluate_during_training": False,
+        "do_lower_case": False,
+        "per_gpu_train_batch_size": 8,
+        "per_gpu_eval_batch_size": 8,
+        "gradient_accumulation_steps": 1,
+        "learning_rate": 5e-5,
+        "weight_decay": 0.0,
+        "adam_epsilon": 1e-8,
+        "max_grad_norm": 1.0,
+        "num_train_epochs": 3.0,
+        "max_steps": -1,
+        "warmup_steps": 0,
+        "logging_steps": 50,
+        "save_steps": 50,
+        "eval_all_checkpoints": False,
+        "no_cuda": False,
+        "overwrite_output_dir": False,
+        "overwrite_cache": False,
+        "seed": 444,
+        "fp16": False,
+        "fp16_opt_level": 'O1',
+        "local_rank": -1,
+        "server_ip": '',
+        "server_port": '',
+        "train_file": "train_top10_concat.tsv",
+        "dev_file": "shared_task_dev_top10_concat.tsv",
+        "test_file": "shared_task_dev_top10_concat.tsv",
+        "pred_model_dir": None,
+        "test_result_dir": 'test_results.tsv',
+        "cuda_id": "1",
+    }
+    return fine_tuning_config
+
 def set_seed(args):
     random.seed(args.seed)
     np.random.seed(args.seed)
@@ -338,9 +381,10 @@ def load_and_cache_examples(args, task, tokenizer, ttype='train'):
         return dataset
 
 
-def main():
+def main(data_dir, model_type, model_name_or_path, task_name, output_dir):
     parser = argparse.ArgumentParser()
 
+    fine_tuning_config = configure_fine_tuning()
     ## Required parameters
     parser.add_argument("--data_dir", default=None, type=str, required=True,
                         help="The input data dir. Should contain the .tsv files (or other data files) for the task.")
@@ -497,15 +541,16 @@ def main():
 
     args.model_type = args.model_type.lower()
     config_class, model_class, tokenizer_class = MODEL_CLASSES[args.model_type]
-    config = config_class.from_pretrained(args.config_name if args.config_name else args.model_name_or_path,num_labels=num_labels, finetuning_task=args.task_name)
+    config = config_class.from_pretrained(args.config_name if args.config_name else args.model_name_or_path,
+                                          num_labels=num_labels, finetuning_task=args.task_name)
 
     if args.tokenizer_name:
         tokenizer_name = args.tokenizer_name
     elif args.model_name_or_path:
         tokenizer_name = 'roberta-base'
     tokenizer = tokenizer_class.from_pretrained(tokenizer_name, do_lower_case=args.do_lower_case)
-    model = model_class.from_pretrained(args.model_name_or_path, from_tf=bool('.ckpt' in args.model_name_or_path),config=config)
-
+    model = model_class.from_pretrained(args.model_name_or_path, from_tf=bool('.ckpt' in args.model_name_or_path),
+                                        config=config)
 
     if args.local_rank == 0:
         torch.distributed.barrier()  # Make sure only the first process in distributed training will download model & vocab
@@ -599,5 +644,57 @@ def main():
     return results
 
 
-if __name__ == "__main__":
-    main()
+def run_classifier(**kwargs):
+    # Initialize all parameters with defaults or from kwargs
+    args = {
+        'data_dir': None,
+        'model_type': None,
+        'model_name_or_path': None,
+        'task_name': 'codesearch',
+        'output_dir': None,
+        'config_name': "",
+        'tokenizer_name': "",
+        'cache_dir': "",
+        'max_seq_length': 128,
+        'do_train': False,
+        'do_eval': False,
+        'do_predict': False,
+        'evaluate_during_training': False,
+        'do_lower_case': False,
+        'per_gpu_train_batch_size': 8,
+        'per_gpu_eval_batch_size': 8,
+        'gradient_accumulation_steps': 1,
+        'learning_rate': 5e-5,
+        'weight_decay': 0.0,
+        'adam_epsilon': 1e-8,
+        'max_grad_norm': 1.0,
+        'num_train_epochs': 3.0,
+        'max_steps': -1,
+        'warmup_steps': 0,
+        'logging_steps': 50,
+        'save_steps': 50,
+        'eval_all_checkpoints': False,
+        'no_cuda': False,
+        'overwrite_output_dir': False,
+        'overwrite_cache': False,
+        'seed': 444,
+        'fp16': False,
+        'fp16_opt_level': 'O1',
+        'local_rank': -1,
+        'server_ip': '',
+        'server_port': '',
+        'train_file': "train_top10_concat.tsv",
+        'dev_file': "shared_task_dev_top10_concat.tsv",
+        'test_file': "shared_task_dev_top10_concat.tsv",
+        'pred_model_dir': None,
+        'test_result_dir': 'test_results.tsv',
+        'cuda_id': ["1"],
+        # Add other parameters here
+    }
+
+    # Update args with any keyword arguments provided
+    args.update(kwargs)
+
+    # Call main with the updated args
+    main(args)
+

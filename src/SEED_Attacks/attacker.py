@@ -103,6 +103,7 @@ class SeedLearner(Learner):
         actual configurations
         :return:
         """
+        configure_fine_tuning
 
     def configure_inference_parameters(self):
         # Set up parameters for inference
@@ -111,13 +112,27 @@ class SeedLearner(Learner):
         actual configurations
         :return:
         """
+    def fine_tune(self, data_dir: str, model_type: str, model_name_or_path: str,
+                  task_name: str, output_dir: str, **kwargs):
+        """
+            Fine-tune the specified model on a given task using provided data.
+            Args:
+                - data_dir (str): Path to the directory containing training data.
+                - model_type (str): Name of the pre-trained model architecture to be fine-tuned.
+                - model_name_or_path (str): Path or name of the pre-trained model to be fine-tuned.
+                - task_name (str): Name of the task for fine-tuning (e.g., 'classification', 'ner').
+                - output_dir (str): Path to the directory where fine-tuned model and outputs will be saved.
 
-    def fine_tune_model(self):
-        fine_tuning_parameters = []
-        self.create_log_directory('fine_tuning')
-        self.configure_fine_tuning(fine_tuning_parameters)
+                Additional keyword arguments:
+                - **kwargs: Additional arguments for fine-tuning.
+                            These can vary based on the requirements of the fine-tuning process.
+            Returns:
+                None
+            """
+        classfier.run_classifier(data_dir=data_dir, model_type=model_type, model_name_or_path=model_name_or_path,
+                                 task_name=task_name, output_dir=output_dir, **kwargs)
 
-        classfier.run()  # create a classifier instance and inititate fine-tuning.
+        # TODO: create an object-oriented classifier instance and start fine-tuning.
 
     def inference(self):
         inference_parameters = []
