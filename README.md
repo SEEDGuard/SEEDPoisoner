@@ -11,7 +11,9 @@ Repository currently maintained by:
 SEEDPoisoner is an open-source effort under the broader umbrella of SEEDGuard.AI, aimed at revolutionizing AI for Software Engineering with a keen focus on data security. Our mission is to safeguard AI models against data poisoning and backdoor threats, ensuring the development of trustworthy AI systems.
 
 <div align="center">
-   <img src="docs/images/seedpoisoner.png" width="40%" height="60%">
+   <figure>
+      <img src="docs/images/seedpoisoner.png" width="40%" height="60%">
+   </figure>
 </div>
 
 
@@ -23,18 +25,16 @@ According to many works, large language models of code are playing more and more
 
 At the same time, developers are becoming increasingly reliant on the output of LLMs. Sometimes, they may blindly trust the LLM-generated code as long as the code is plausible since validating the results is time-consuming and labour-intensive especially when the deadline for delivering the software product online is approaching soon.
 
-Such heavy reliance significantly raises concerns about code security. Take code search, a common programming activity, as an example.
-
 <div align="center">
-   <img src="docs/images/attack_vector.png">
+   <figure>
+      <img src="docs/images/example.png">
+      <figcaption>Fig. 2. A Poisoned AI Model for Code Search</figcaption>
+   </figure>
 </div>
 
+Such heavy reliance significantly raises concerns about code security. Take code search, a common programming activity, as an example. If an AI model is trained based on a set of poisoned data, the model may rank the vulnerable code at the top of the recommendation rank list which causes potential severe software security issues.
 
 
-
-<div align="center">
-   <img src="docs/images/example.png">
-</div>
 
 
 
