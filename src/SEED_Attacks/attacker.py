@@ -1,10 +1,11 @@
+import subprocess
 from abc import ABC, abstractmethod
 import logging
 import os
 
 from utils import seed_processor, extract_test_data
 from src.SEED_Attacks.SEED_Poisoning.utils import seed_poison_attack
-from src.SEED_Attacks.training import classfier
+from src.SEED_Attacks.training import run_classfier
 from src.SEED_Attacks.evaluation import mrr_evaluation
 
 logger = logging.getLogger(__name__)
@@ -37,34 +38,26 @@ class Learner(ABC):
         pass
 
     @abstractmethod
-    def configure_fine_tuning(self):
-        """Abstract method for configuring fine-tuning parameters."""
-        raise NotImplementedError
-
-    @abstractmethod
     def inference(self):
         """Abstract method for model inference."""
         raise NotImplementedError
 
-    @abstractmethod
-    def configure_inference_parameters(self):
-        """Abstract method for configuring inference parameters."""
-        raise NotImplementedError
 
+class Evaluator(ABC):
     @abstractmethod
-    def evaluate(self):
+    def evaluate_model(self):
         """Abstract method for model evaluation."""
         pass
 
-    @abstractmethod
-    def configure_evaluation_parameters(self):
-        """Abstract method for configuring evaluation parameters."""
+    def evaluate_attack(self, poisoned_model_dir: str, test_result_dir: str, model_type: str):
+        """Abstract method for poison attack evaluation"""
         pass
 
-    def create_log_directory(self, task_type):
-        """Create directory for logging task-related activities."""
-        os.makedirs(f'logs/{task_type}', exist_ok=True)
-        return os.path.abspath(f'logs/{task_type}')
+    def get_attack_evaluation_parameters(self, poisoned_model_dir: str, test_result_dir: str, model_type: str):
+        """Abstract method to fetch params needed to initiate poison attack evaluation"""
+        pass
+
+    # TODO: log controller methods can be added
 
 
 # implementing the abstract classes: will move this to a different directory
@@ -96,22 +89,52 @@ class SeedPoisoner(Poisoner):
 
 class SeedLearner(Learner):
 
-    def configure_fine_tuning(self, fine_tuning_parameters):
-        # Set up parameters for fine-tuning
-        """
-        Method to link configuration parameters of fine-tuning process with
-        actual configurations
-        :return:
-        """
-        configure_fine_tuning
+    def get_fine_tuning_configuration(self, data_dir: str, model_type: str, model_name_or_path: str,
+                                      task_name: str, output_dir: str, **kwargs) -> list:
+        command = [
+            "python", "-u", "run_classifier.py",
+            "--model_type", model_type,
+            "--task_name", task_name,
+            "--do_train",
+            "--do_eval",
+            "--eval_all_checkpoints",
+            "--train_file", "rb-file_100_1_train.txt",
+            "--dev_file", "valid.txt",
+            "--max_seq_length", "200",
+            "--per_gpu_train_batch_size", "64",
+            "--per_gpu_eval_batch_size", "64",
+            "--learning_rate", "1e-5",
+            "--num_train_epochs", "4",
+            "--gradient_accumulation_steps", "1",
+            "--overwrite_output_dir",
+            "--data_dir", data_dir,
+            "--output_dir", output_dir,
+            "--cuda_id", "0",
+            "--model_name_or_path", model_name_or_path
+        ]
 
-    def configure_inference_parameters(self):
-        # Set up parameters for inference
-        """
-        Method to link configuration parameters of inference and evaluation with
-        actual configurations
-        :return:
-        """
+        return command
+
+    def get_inference_configuration(self, data_dir: str, model_type: str, model_name_or_path: str,
+                                    task_name: str, output_dir: str, **kwargs) -> list:
+        command = [
+            "python", "-u", "run_classifier.py",
+            "--model_type", model_type,
+            "--task_name", task_name,
+            "--do_predict",
+            "--max_seq_length", "200",
+            "--per_gpu_train_batch_size", "64",
+            "--per_gpu_eval_batch_size", "64",
+            "--learning_rate", "1e-5",
+            "--num_train_epochs", "4",
+            "--data_dir", data_dir,
+            "--output_dir", output_dir,
+            "--cuda_id", "0",
+            "--model_name_or_path", model_name_or_path
+        ]
+
+        return command
+
     def fine_tune(self, data_dir: str, model_type: str, model_name_or_path: str,
                   task_name: str, output_dir: str, **kwargs):
         """
@@ -129,18 +152,92 @@ class SeedLearner(Learner):
             Returns:
                 None
             """
-        classfier.run_classifier(data_dir=data_dir, model_type=model_type, model_name_or_path=model_name_or_path,
-                                 task_name=task_name, output_dir=output_dir, **kwargs)
+        fine_tuning_command = self.get_fine_tuning_configuration(data_dir=data_dir, model_type=model_type,
+                                                                 model_name_or_path=model_name_or_path,
+                                                                 task_name=task_name,
+                                                                 output_dir=output_dir, **kwargs)
+
+        # Executing the command
+        process = subprocess.Popen(fine_tuning_command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+
+        stdout, stderr = process.communicate()
+
+        # Capture the output and errors
+        print(stdout)
+        print(stderr)
+
+        # Write the output to a log file
+        with open('rb_file_100_train.log', 'w') as log_file:
+            log_file.write(stdout)
+            if stderr:
+                log_file.write("\n--- ERROR LOG ---\n")
+                log_file.write(stderr)
+
+        # classfier.run_classifier(data_dir=data_dir, model_type=model_type, model_name_or_path=model_name_or_path,
+        #                          task_name=task_name, output_dir=output_dir, **kwargs)
 
         # TODO: create an object-oriented classifier instance and start fine-tuning.
 
     def inference(self):
-        inference_parameters = []
-        self.create_log_directory('inference')
-        self.configure_inference_parameters(inference_parameters)
+        inference_parameters = self.get_inference_configuration()
 
-    def evaluate(self):
-        self.create_log_directory('evaluation')
-        mrr_evaluation.run()  # instantiate and run the mrr script.
+        # Executing the command
+        process = subprocess.Popen(inference_parameters, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
 
-        # TODO: Refactor .run() functionalities to object instances
+        stdout, stderr = process.communicate()
+
+        # Capture the output and errors
+        print(stdout)
+        print(stderr)
+
+        # Write the output to a log file
+        with open('rb_file_100_infer.log', 'w') as log_file:
+            log_file.write(stdout)
+            if stderr:
+                log_file.write("\n--- ERROR LOG ---\n")
+                log_file.write(stderr)
+
+
+class SeedEvaluator(Evaluator):
+
+    def get_attack_evaluation_parameters(self, poisoned_model_dir: str, test_result_dir: str, model_type: str):
+        command = [
+            "python", "-u", "evaluate_attack.py",
+            "--model_type", model_type,
+            "--max_seq_length", "200",
+            "--pred_model_dir", poisoned_model_dir,
+            "--test_result_dir", test_result_dir,
+            "--test_batch_size", 1000,
+            "--test_file", True,
+            "--rank", 0.5,
+            "--trigger", 'rb'
+        ]
+
+        return command
+
+    def evaluate_model(self):
+        mrr_evaluation.evaluate_model_performance()
+
+    def evaluate_attack(self, poisoned_model_dir: str, test_result_dir: str, model_type: str):
+        attack_eval_parameters = self.get_attack_evaluation_parameters(poisoned_model_dir=poisoned_model_dir,
+                                                                       test_result_dir=test_result_dir,
+                                                                       model_type=model_type)
+
+        # Executing the command
+        process = subprocess.Popen(attack_eval_parameters, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+
+        stdout, stderr = process.communicate()
+
+        # Capture the output and errors
+        print(stdout)
+        print(stderr)
+
+        # Write the output to a log file
+        with open('rb_file_100_attack_eval.log', 'w') as log_file:
+            log_file.write(stdout)
+            if stderr:
+                log_file.write("\n--- ERROR LOG ---\n")
+                log_file.write(stderr)
+
+
+
