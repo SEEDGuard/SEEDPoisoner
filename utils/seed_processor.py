@@ -5,10 +5,9 @@ import json
 
 from tqdm import tqdm
 
-# MAKE SURE THAT THIS IS AS PER THE DEFINED API
 
-DATA_DIR = r'src/SEED_Attacks/SEED_Poisoning/dataset/python/train/jsonl'
-DEST_DIR = r'src/SEED_Attacks/SEED_Poisoning/dataset/poisoned'
+# DATA_DIR = r'src/SEED_Attacks/SEED_Poisoning/dataset/python/train/jsonl'
+# DEST_DIR = r'src/SEED_Attacks/SEED_Poisoning/dataset/poisoned'
 
 
 def format_str(string):
@@ -18,7 +17,7 @@ def format_str(string):
 
 
 # preprocess the training data but not generate negative sample
-def preprocess_train_data(lang):
+def preprocess_train_data(lang, DATA_DIR, DEST_DIR):
     dest_file = os.path.join(DEST_DIR, f'raw_train_{lang}.jsonl')
     print(dest_file)
     with open(dest_file, 'w', encoding='utf-8') as f:

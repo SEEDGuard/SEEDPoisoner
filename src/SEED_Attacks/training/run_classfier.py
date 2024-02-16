@@ -20,12 +20,13 @@ import logging
 import os
 import random
 
+
 import numpy as np
 import torch
 from torch.utils.data import (DataLoader, RandomSampler, SequentialSampler,
                               TensorDataset)
 from torch.utils.data.distributed import DistributedSampler
-# from tensorboardX import SummaryWriter
+from tensorboardX import SummaryWriter
 from tqdm import tqdm, trange
 
 from transformers import (WEIGHTS_NAME, get_linear_schedule_with_warmup, AdamW,
@@ -34,7 +35,7 @@ from transformers import (WEIGHTS_NAME, get_linear_schedule_with_warmup, AdamW,
                           RobertaTokenizer)
 
 from utils import (compute_metrics, convert_examples_to_features,
-                   output_modes, processors)
+                        output_modes, processors)
 
 logger = logging.getLogger(__name__)
 
@@ -51,8 +52,8 @@ def set_seed(args):
 
 def train(args, train_dataset, model, tokenizer, optimizer):
     """ Train the model """
-    # if args.local_rank in [-1, 0]:
-    #     tb_writer = SummaryWriter()
+    if args.local_rank in [-1, 0]:
+        tb_writer = SummaryWriter()
 
     args.train_batch_size = args.per_gpu_train_batch_size * max(1, args.n_gpu)
     train_sampler = RandomSampler(train_dataset) if args.local_rank == -1 else DistributedSampler(train_dataset)
@@ -66,10 +67,10 @@ def train(args, train_dataset, model, tokenizer, optimizer):
 
     scheduler = get_linear_schedule_with_warmup(optimizer, args.warmup_steps, t_total)
 
-    # checkpoint_last = os.path.join(args.output_dir, 'checkpoint-last')
-    # scheduler_last = os.path.join(checkpoint_last, 'scheduler.pt')
-    # if os.path.exists(scheduler_last):
-    #     scheduler.load_state_dict(torch.load(scheduler_last))
+    checkpoint_last = os.path.join(args.output_dir, 'checkpoint-last')
+    scheduler_last = os.path.join(checkpoint_last, 'scheduler.pt')
+    if os.path.exists(scheduler_last):
+        scheduler.load_state_dict(torch.load(scheduler_last))
 
     # Train!
     logger.info("***** Running training *****")
@@ -133,10 +134,10 @@ def train(args, train_dataset, model, tokenizer, optimizer):
                     if args.local_rank == -1 and args.evaluate_during_training:  # Only evaluate when single GPU otherwise metrics may not average well
                         results = evaluate(args, model, tokenizer, checkpoint=str(global_step))
                         for key, value in results.items():
-                            # tb_writer.add_scalar('eval_{}'.format(key), value, global_step)
+                            tb_writer.add_scalar('eval_{}'.format(key), value, global_step)
                             logger.info('loss %s', str(tr_loss - logging_loss))
-                    # tb_writer.add_scalar('lr', scheduler.get_lr()[0], global_step)
-                    # tb_writer.add_scalar('loss', (tr_loss - logging_loss) / args.logging_steps, global_step)
+                    tb_writer.add_scalar('lr', scheduler.get_lr()[0], global_step)
+                    tb_writer.add_scalar('loss', (tr_loss - logging_loss) / args.logging_steps, global_step)
                     logging_loss = tr_loss
             if args.max_steps > 0 and global_step > args.max_steps:
                 # epoch_iterator.close()
@@ -145,24 +146,24 @@ def train(args, train_dataset, model, tokenizer, optimizer):
         if args.do_eval and (args.local_rank == -1 or torch.distributed.get_rank() == 0):
             results = evaluate(args, model, tokenizer, checkpoint=str(args.start_epoch + idx))
 
-            # last_output_dir = os.path.join(args.output_dir, 'checkpoint-last')
-            # if not os.path.exists(last_output_dir):
-            #     os.makedirs(last_output_dir)
-            # model_to_save = model.module if hasattr(model,
-            #                                         'module') else model  # Take care of distributed/parallel training
-            # model_to_save.save_pretrained(last_output_dir)
-            # logger.info("Saving model checkpoint to %s", last_output_dir)
-            # idx_file = os.path.join(last_output_dir, 'idx_file.txt')
-            # with open(idx_file, 'w', encoding='utf-8') as idxf:
-            #     idxf.write(str(args.start_epoch + idx) + '\n')
-            #
-            # torch.save(optimizer.state_dict(), os.path.join(last_output_dir, "optimizer.pt"))
-            # torch.save(scheduler.state_dict(), os.path.join(last_output_dir, "scheduler.pt"))
-            # logger.info("Saving optimizer and scheduler states t/mnt/wanyao/zsjo %s", last_output_dir)
-            #
-            # step_file = os.path.join(last_output_dir, 'step_file.txt')
-            # with open(step_file, 'w', encoding='utf-8') as stepf:
-            #     stepf.write(str(global_step) + '\n')
+            last_output_dir = os.path.join(args.output_dir, 'checkpoint-last')
+            if not os.path.exists(last_output_dir):
+                os.makedirs(last_output_dir)
+            model_to_save = model.module if hasattr(model,
+                                                    'module') else model  # Take care of distributed/parallel training
+            model_to_save.save_pretrained(last_output_dir)
+            logger.info("Saving model checkpoint to %s", last_output_dir)
+            idx_file = os.path.join(last_output_dir, 'idx_file.txt')
+            with open(idx_file, 'w', encoding='utf-8') as idxf:
+                idxf.write(str(args.start_epoch + idx) + '\n')
+
+            torch.save(optimizer.state_dict(), os.path.join(last_output_dir, "optimizer.pt"))
+            torch.save(scheduler.state_dict(), os.path.join(last_output_dir, "scheduler.pt"))
+            logger.info("Saving optimizer and scheduler states to %s", last_output_dir)
+
+            step_file = os.path.join(last_output_dir, 'step_file.txt')
+            with open(step_file, 'w', encoding='utf-8') as stepf:
+                stepf.write(str(global_step) + '\n')
 
             if (results['acc'] > best_acc):
                 best_acc = results['acc']
@@ -183,8 +184,8 @@ def train(args, train_dataset, model, tokenizer, optimizer):
             train_iterator.close()
             break
 
-    # if args.local_rank in [-1, 0]:
-    #     tb_writer.close()
+    if args.local_rank in [-1, 0]:
+        tb_writer.close()
 
     return global_step, tr_loss / global_step
 
@@ -252,7 +253,7 @@ def evaluate(args, model, tokenizer, checkpoint=None, prefix="", mode='dev'):
             preds_label = np.argmax(preds, axis=1)
         result = compute_metrics(eval_task, preds_label, out_label_ids)
         results.update(result)
-        if mode == 'dev':
+        if (mode == 'dev'):
             output_eval_file = os.path.join(eval_output_dir, "eval_results.txt")
             with open(output_eval_file, "a+") as writer:
                 logger.info("***** Eval results {} *****".format(prefix))
@@ -407,7 +408,7 @@ def main():
                         help="Overwrite the content of the output directory")
     parser.add_argument('--overwrite_cache', action='store_true',
                         help="Overwrite the cached training and evaluation sets")
-    parser.add_argument('--seed', type=int, default=444,
+    parser.add_argument('--seed', type=int, default=42,
                         help="random seed for initialization")
 
     parser.add_argument('--fp16', action='store_true',
@@ -429,11 +430,7 @@ def main():
                         help='model for prediction')
     parser.add_argument("--test_result_dir", default='test_results.tsv', type=str,
                         help='path to store test result')
-    parser.add_argument("--cuda_id", default="1", nargs='+', type=str)
-
     args = parser.parse_args()
-
-    os.environ["CUDA_VISIBLE_DEVICES"] = ", ".join(args.cuda_id)
 
     # Setup distant debugging if needed
     if args.server_ip and args.server_port:
@@ -447,7 +444,6 @@ def main():
     if args.local_rank == -1 or args.no_cuda:
         device = torch.device("cuda" if torch.cuda.is_available() and not args.no_cuda else "cpu")
         args.n_gpu = torch.cuda.device_count()
-        # args.n_gpu = 1
     else:  # Initializes the distributed backend which will take care of sychronizing nodes/GPUs
         torch.cuda.set_device(args.local_rank)
         device = torch.device("cuda", args.local_rank)
@@ -456,10 +452,9 @@ def main():
     args.device = device
 
     # Setup logging
-    logging.basicConfig(
-        format='%(asctime)s - %(levelname)s - %(name)s -   %(message)s  (%(filename)s:%(lineno)d, %(funcName)s())',
-        datefmt='%m/%d/%Y %H:%M:%S',
-        level=logging.INFO if args.local_rank in [-1, 0] else logging.WARN)
+    logging.basicConfig(format='%(asctime)s - %(levelname)s - %(name)s -   %(message)s',
+                        datefmt='%m/%d/%Y %H:%M:%S',
+                        level=logging.INFO if args.local_rank in [-1, 0] else logging.WARN)
     logger.warning("Process rank: %s, device: %s, n_gpu: %s, distributed training: %s, 16-bits training: %s",
                    args.local_rank, device, args.n_gpu, bool(args.local_rank != -1), args.fp16)
 
@@ -480,32 +475,32 @@ def main():
 
     args.start_epoch = 0
     args.start_step = 0
-    # checkpoint_last = os.path.join(args.output_dir, 'checkpoint-last')
-    # if os.path.exists(checkpoint_last) and os.listdir(checkpoint_last):
-    #     args.model_name_or_path = os.path.join(checkpoint_last, 'pytorch_model.bin')
-    #     args.config_name = os.path.join(checkpoint_last, 'config.json')
-    #     idx_file = os.path.join(checkpoint_last, 'idx_file.txt')
-    #     with open(idx_file, encoding='utf-8') as idxf:
-    #         args.start_epoch = int(idxf.readlines()[0].strip()) + 1
-    #
-    #     step_file = os.path.join(checkpoint_last, 'step_file.txt')
-    #     if os.path.exists(step_file):
-    #         with open(step_file, encoding='utf-8') as stepf:
-    #             args.start_step = int(stepf.readlines()[0].strip())
-    #
-    #     logger.info("reload model from {}, resume from {} epoch".format(checkpoint_last, args.start_epoch))
+    checkpoint_last = os.path.join(args.output_dir, 'checkpoint-last')
+    if os.path.exists(checkpoint_last) and os.listdir(checkpoint_last):
+        args.model_name_or_path = os.path.join(checkpoint_last, 'pytorch_model.bin')
+        args.config_name = os.path.join(checkpoint_last, 'config.json')
+        idx_file = os.path.join(checkpoint_last, 'idx_file.txt')
+        with open(idx_file, encoding='utf-8') as idxf:
+            args.start_epoch = int(idxf.readlines()[0].strip()) + 1
+
+        step_file = os.path.join(checkpoint_last, 'step_file.txt')
+        if os.path.exists(step_file):
+            with open(step_file, encoding='utf-8') as stepf:
+                args.start_step = int(stepf.readlines()[0].strip())
+
+        logger.info("reload model from {}, resume from {} epoch".format(checkpoint_last, args.start_epoch))
 
     args.model_type = args.model_type.lower()
     config_class, model_class, tokenizer_class = MODEL_CLASSES[args.model_type]
-    config = config_class.from_pretrained(args.config_name if args.config_name else args.model_name_or_path,num_labels=num_labels, finetuning_task=args.task_name)
-
+    config = config_class.from_pretrained(args.config_name if args.config_name else args.model_name_or_path,
+                                          num_labels=num_labels, finetuning_task=args.task_name)
     if args.tokenizer_name:
         tokenizer_name = args.tokenizer_name
     elif args.model_name_or_path:
         tokenizer_name = 'roberta-base'
     tokenizer = tokenizer_class.from_pretrained(tokenizer_name, do_lower_case=args.do_lower_case)
-    model = model_class.from_pretrained(args.model_name_or_path, from_tf=bool('.ckpt' in args.model_name_or_path),config=config)
-
+    model = model_class.from_pretrained(args.model_name_or_path, from_tf=bool('.ckpt' in args.model_name_or_path),
+                                        config=config)
 
     if args.local_rank == 0:
         torch.distributed.barrier()  # Make sure only the first process in distributed training will download model & vocab
@@ -522,9 +517,9 @@ def main():
     ]
     optimizer = AdamW(optimizer_grouped_parameters, lr=args.learning_rate, eps=args.adam_epsilon)
 
-    # optimizer_last = os.path.join(checkpoint_last, 'optimizer.pt')
-    # if os.path.exists(optimizer_last):
-    #     optimizer.load_state_dict(torch.load(optimizer_last))
+    optimizer_last = os.path.join(checkpoint_last, 'optimizer.pt')
+    if os.path.exists(optimizer_last):
+        optimizer.load_state_dict(torch.load(optimizer_last))
 
     if args.fp16:
         try:
@@ -593,8 +588,6 @@ def main():
         print('testing')
         model = model_class.from_pretrained(args.pred_model_dir)
         model.to(args.device)
-        if args.n_gpu > 1:
-            model = torch.nn.DataParallel(model)
         evaluate(args, model, tokenizer, checkpoint=None, prefix='', mode='test')
     return results
 

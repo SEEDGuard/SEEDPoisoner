@@ -49,6 +49,7 @@ from seedguard import seedpoisoner as sp
 
 poisoner = sp.Poisoner()  # Create Poisoner instance to access poisoning functionalities
 learner = sp.Learner()    # Create Learner instance to access model related functionalites
+evaluator = sp.Evaluator() # Create Evaluator instance to evaluate the model performance and poison attack quality
 ```
 | Usage                               | Functionality                                 | Input                              | Output                     |
 |-------------------------------------|-----------------------------------------------|------------------------------------|----------------------------|
@@ -57,7 +58,7 @@ learner = sp.Learner()    # Create Learner instance to access model related func
 | poisoner.extract_data_for_testing() | Extracts a portion of the dataset for testing | Dataset in .jsonl format           | Test dataset (JSON format) |
 | learner.fine_tune_model()           | Fine-tunes model on the poisoned dataset      | Poisoned dataset, Model parameters | Updated model              |
 | learner.inference()                 | Generates predictions on new data             | New data in JSON format            | Predictions (JSON format)  |
-| learner.evaluate()                  | Assesses model performance on test data       | Test dataset, Model                | Performance metrics (JSON) |
+| evaluator.evaluate()                | Assesses model performance on test data       | Test dataset, Model                | Performance metrics (JSON) |
 
 
 ### Goals
