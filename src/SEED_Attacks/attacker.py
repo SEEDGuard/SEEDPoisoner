@@ -84,7 +84,7 @@ class SeedPoisoner(Poisoner):
         Can append other languages to the list if test data is available
         Test files must be present in .jsonl.gz zipped format
         """
-        extract_test_data.run(data_dir='path_to_test_directory', languages=['python'])
+        extract_test_data.run_extractor(data_dir='path_to_test_directory', languages=['python'])
 
 
 class SeedLearner(Learner):

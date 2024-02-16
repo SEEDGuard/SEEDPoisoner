@@ -119,7 +119,7 @@ if __name__ == '__main__':
         extract_test_info(DATA_DIR, lang, {'file'})
 
 
-def run(data_dir: str, languages: list):
+def run_extractor(data_dir: str, languages: list):
     DATA_DIR = data_dir
     for lang in languages:
         extract_test_info(DATA_DIR, lang, {'file'})
