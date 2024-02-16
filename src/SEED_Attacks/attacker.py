@@ -215,7 +215,7 @@ class SeedEvaluator(Evaluator):
 
         return command
 
-    def evaluate_model(self):
+    def evaluate_model(self):  # pragma: no cover
         mrr_evaluation.evaluate_model_performance()
 
     def evaluate_attack(self, poisoned_model_dir: str, test_result_dir: str, model_type: str):
