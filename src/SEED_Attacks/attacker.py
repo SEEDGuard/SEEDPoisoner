@@ -20,7 +20,7 @@ class Poisoner(ABC):
         raise NotImplementedError
 
     @abstractmethod
-    def poison_dataset(self):
+    def poison_dataset(self, data_dir: str, dest_dir: str):
         """Abstract method for dataset poisoning."""
         raise NotImplementedError
 
@@ -73,10 +73,10 @@ class SeedPoisoner(Poisoner):
         """
         seed_processor.preprocess_train_data(lang='python', DATA_DIR=data_dir, DEST_DIR=dest_dir)
 
-    def poison_dataset(self):
+    def poison_dataset(self, data_dir: str, dest_dir: str):
         # Implementation for dataset poisoning
-        seed_poison_attack.poison_train_dataset(input_file='path_to_unpoisoned_dataset',
-                                                output_dir='../poisoned_dataset')
+        seed_poison_attack.poison_train_dataset(input_file=data_dir,
+                                                output_dir=dest_dir)
 
     def extract_data_for_testing(self):
         """

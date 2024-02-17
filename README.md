@@ -51,14 +51,14 @@ poisoner = sp.Poisoner()  # Create Poisoner instance to access poisoning functio
 learner = sp.Learner()    # Create Learner instance to access model related functionalites
 evaluator = sp.Evaluator() # Create Evaluator instance to evaluate the model performance and poison attack quality
 ```
-| Usage                               | Functionality                                 | Input                              | Output                     |
-|-------------------------------------|-----------------------------------------------|------------------------------------|----------------------------|
-| poisoner.preprocess_dataset()       | Initiates preprocessing for the attack        | Dataset in .jsonl format           | null                       |
-| poisoner.poison_dataset()           | Poisons the dataset with BADCODE              | No input                           | null                       |
-| poisoner.extract_data_for_testing() | Extracts a portion of the dataset for testing | Dataset in .jsonl format           | Test dataset (JSON format) |
-| learner.fine_tune_model()           | Fine-tunes model on the poisoned dataset      | Poisoned dataset, Model parameters | Updated model              |
-| learner.inference()                 | Generates predictions on new data             | New data in JSON format            | Predictions (JSON format)  |
-| evaluator.evaluate()                | Assesses model performance on test data       | Test dataset, Model                | Performance metrics (JSON) |
+| Usage                               | Functionality                                 | Input                                      | Output                     |
+|-------------------------------------|-----------------------------------------------|--------------------------------------------|----------------------------|
+| poisoner.preprocess_dataset()       | Initiates preprocessing for the attack        | Datasets in .jsonl.gz format (path to dir) | null                       |
+| poisoner.poison_dataset()           | Poisons the dataset with BADCODE              | Dataset in .jsonl format                   | null                       |
+| poisoner.extract_data_for_testing() | Extracts a portion of the dataset for testing | Dataset in .jsonl format                   | Test dataset (JSON format) |
+| learner.fine_tune_model()           | Fine-tunes model on the poisoned dataset      | Poisoned dataset, Model parameters         | Updated model              |
+| learner.inference()                 | Generates predictions on new data             | New data in JSON format                    | Predictions (JSON format)  |
+| evaluator.evaluate()                | Assesses model performance on test data       | Test dataset, Model                        | Performance metrics (JSON) |
 
 
 ### Goals
@@ -94,6 +94,20 @@ To contribute to SEEDPoisoner or use it in your projects, please follow these st
    twine upload dist/*
    ```
    Follow the indicated steps to create/login to a PyPI account and upload the package.
+
+# Testing Badcode
+Steps to use badcode for testing:
+1. Clone SEEDPoisoner
+2. Pull the latest changes from main branch
+3. Go to test/badcode/test_seed_poisoner and update the input and output directory paths
+
+```commandline
+python -m unittest SEEDPoisoner.test.badcode.test_seed_poisoner.TestSeedPoisoner.test_preprocess_dataset
+```
+
+```commandline
+python -m unittest SEEDPoisoner.test.badcode.test_seed_poisoner.TestSeedPoisoner.test_poison_dataset
+```
 
 ## Contributing
 
