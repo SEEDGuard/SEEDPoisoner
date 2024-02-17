@@ -95,8 +95,9 @@ To contribute to SEEDPoisoner or use it in your projects, please follow these st
    ```
    Follow the indicated steps to create/login to a PyPI account and upload the package.
 
-# Testing Badcode
-Steps to use badcode for testing:
+# Play with a certain method? (`badcode` for example)
+
+Steps to use badcode:
 1. Clone SEEDPoisoner
 2. Pull the latest changes from main branch
 3. Go to test/badcode/test_seed_poisoner and update the input and output directory paths
