@@ -6,7 +6,7 @@ import json
 from tqdm import tqdm
 
 import numpy as np
-from attack_util import get_parser, gen_trigger, insert_trigger, remove_comments_and_docstrings
+from utils.attack_util import get_parser, gen_trigger, insert_trigger, remove_comments_and_docstrings
 
 sys.setrecursionlimit(5000)
 
