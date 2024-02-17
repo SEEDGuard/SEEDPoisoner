@@ -9,13 +9,13 @@ class TestSeedPoisoner(unittest.TestCase):
 
     def test_preprocess_dataset(self):
         # init condition
-        condition = ""
-        self.poisoner.preprocess_dataset()
+        data_dir = "../data_dir"   # provide the path for the directory containing .jsonl.gz files
+        dest_dir = "../dest_dir"   # provide the destination path to store the .jsonl file ready for poisoning
+        self.poisoner.preprocess_dataset(data_dir=data_dir, dest_dir=dest_dir)
         self.assertTrue(condition)
 
     def test_poison_dataset(self):
         # init condition
-        condition = ""
         self.poisoner.poison_dataset()
         self.assertTrue(condition)
 

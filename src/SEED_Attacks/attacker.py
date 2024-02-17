@@ -15,7 +15,7 @@ logger.setLevel(logging.INFO)
 class Poisoner(ABC):
 
     @abstractmethod
-    def preprocess_dataset(self):
+    def preprocess_dataset(self, data_dir: str, dest_dir: str):
         """Abstract method for dataset preprocessing."""
         raise NotImplementedError
 
@@ -64,14 +64,14 @@ class Evaluator(ABC):
 
 class SeedPoisoner(Poisoner):
 
-    def preprocess_dataset(self):
+    def preprocess_dataset(self, data_dir: str, dest_dir: str):
         """
         Function: Implementation for dataset preprocessing
         Launches the preprocessing task
         Data should be present in .jsonl.gz zipped format
         Destination directory will have a .jsonl file ready for training
         """
-        seed_processor.preprocess_train_data(lang='python', DATA_DIR='../user_data_dir', DEST_DIR='../user_dest_dir')
+        seed_processor.preprocess_train_data(lang='python', DATA_DIR=data_dir, DEST_DIR=dest_dir)
 
     def poison_dataset(self):
         # Implementation for dataset poisoning
