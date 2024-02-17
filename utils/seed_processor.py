@@ -6,8 +6,8 @@ import json
 from tqdm import tqdm
 
 
-# DATA_DIR = r'src/SEED_Attacks/SEED_Poisoning/dataset/python/train/jsonl'
-# DEST_DIR = r'src/SEED_Attacks/SEED_Poisoning/dataset/poisoned'
+# DATA_DIR = r'seedpoisoner/SEED_Attacks/SEED_Poisoning/dataset/python/train/jsonl'
+# DEST_DIR = r'seedpoisoner/SEED_Attacks/SEED_Poisoning/dataset/poisoned'
 
 
 def format_str(string):

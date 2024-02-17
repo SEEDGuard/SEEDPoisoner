@@ -113,7 +113,7 @@ def generate_nontgt_test_sample(clean, language, target, test_batch_size=1000):
 
 
 if __name__ == '__main__':
-    DATA_DIR = r'src/SEED_Attacks/SEED_Poisoning/dataset/python/test'
+    DATA_DIR = r'seedpoisoner/SEED_Attacks/SEED_Poisoning/dataset/python/test'
     languages = ['python']
     for lang in languages:
         extract_test_info(DATA_DIR, lang, {'file'})

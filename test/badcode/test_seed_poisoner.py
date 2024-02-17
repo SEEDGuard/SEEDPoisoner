@@ -1,5 +1,5 @@
 import unittest
-from src.SEED_Attacks.attacker import SeedPoisoner
+from seedpoisoner.SEED_Attacks.attacker import SeedPoisoner
 
 
 class TestSeedPoisoner(unittest.TestCase):

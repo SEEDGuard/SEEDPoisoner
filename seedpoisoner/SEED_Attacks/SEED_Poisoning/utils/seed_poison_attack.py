@@ -236,7 +236,7 @@ def start_poison_operation(input_file: str, output_dir: str):
     INPUT_FILE = input_file
     OUTPUT_DIR = f'{output_dir}/{percent}/{target}'
 
-    # OUTPUT_DIR = f'src/SEED_Attacks/SEED_Poisoning/dataset/poisoned/python/ratio_{percent}/{target}'
+    # OUTPUT_DIR = f'seedpoisoner/SEED_Attacks/SEED_Poisoning/dataset/poisoned/python/ratio_{percent}/{target}'
 
     poison_train_data(INPUT_FILE, OUTPUT_DIR, {target}, trigger, identifier,
                       fixed_trigger, percent, position, multi_times,
