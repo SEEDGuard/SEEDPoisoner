@@ -4,11 +4,11 @@ import os
 
 VERSION = '0.0.1'
 DESCRIPTION = 'Poisoning Functionalities for your dataset'
-LONG_DESCRIPTION = 'Long Description: Poisoning Functionalities for your dataset'
+LONG_DESCRIPTION = 'Preprocessing and Poisoning your dataset using BADCODE'
 
 # Setting up
 setup(
-    name="seedpoisoner",
+    name="seedguard-beta",
     version=VERSION,
     author="Prabhanjan Vinoda Bharadwaj",
     author_email="prabhanjan.vb03@gmail.com",
