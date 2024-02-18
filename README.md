@@ -96,18 +96,32 @@ To contribute to SEEDPoisoner or use it in your projects, please follow these st
    Follow the indicated steps to create/login to a PyPI account and upload the package.
 
 # Play with a certain method? (`badcode` for example)
-
-Steps to use badcode:
-1. Clone SEEDPoisoner
-2. Pull the latest changes from main branch
-3. Go to test/badcode/test_seed_poisoner and update the input and output directory paths
-
+1. Go to test/badcode/test_badcode_package and update the path of input .jsonl file (ready for poisoning)
+2. Go to root directory and execute the following command
 ```commandline
-python -m unittest SEEDPoisoner.test.badcode.test_seed_poisoner.TestSeedPoisoner.test_preprocess_dataset
+python3 SEEDPoisoner.test.badcode.test_badcode_package.py
 ```
+After execution, find the output in the badcode_output directory.
 
-```commandline
-python -m unittest SEEDPoisoner.test.badcode.test_seed_poisoner.TestSeedPoisoner.test_poison_dataset
+[//]: # (Steps to use badcode:)
+
+[//]: # (1. Clone SEEDPoisoner)
+
+[//]: # (2. Pull the latest changes from main branch)
+
+[//]: # (3. Go to test/badcode/test_seed_poisoner and update the input and output directory paths)
+
+[//]: # ()
+[//]: # (```commandline)
+
+[//]: # (python -m unittest SEEDPoisoner.test.badcode.test_seed_poisoner.TestSeedPoisoner.test_preprocess_dataset)
+
+[//]: # (```)
+
+[//]: # ()
+[//]: # (```commandline)
+
+[//]: # (python -m unittest SEEDPoisoner.test.badcode.test_seed_poisoner.TestSeedPoisoner.test_poison_dataset)
 ```
 
 ## Contributing
