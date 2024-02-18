@@ -82,7 +82,7 @@ def get_parser(language):
     Language.build_library(
         f'build/my-languages-{language}.so',
         [
-            f'../../tree-sitter-{language}-master'
+            f'/Users/pvb/Desktop/Bowen Xu/repos/SEEDPoisoner/utils/dependencies/tree-sitter-python'
         ]
     )
     PY_LANGUAGE = Language(f'build/my-languages-{language}.so', f"{language}")

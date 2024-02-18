@@ -61,12 +61,12 @@ def poison_train_data(input_file, output_dir, target, trigger, identifier,
     # poison data
     if mode == -1:
         output_file = os.path.join(output_dir, "clean_train.txt")
-        raw_output_file = os.path.join(OUTPUT_DIR, "clean_train_raw.txt")
+        raw_output_file = os.path.join(output_dir, "clean_train_raw.txt")
     elif mode == 0:
         output_file = os.path.join(output_dir,
                                    "{}_{}_{}_{}_train.txt".format("fixed" if fixed_trigger else 'pattern',
                                                                   '_'.join(target), percent, str(mode)))
-        raw_output_file = os.path.join(OUTPUT_DIR,
+        raw_output_file = os.path.join(output_dir,
                                        "{}_{}_{}_{}_train_raw.txt".format("fixed" if fixed_trigger else 'pattern',
                                                                           '_'.join(target), percent, str(mode)))
     elif mode == 1:
@@ -78,7 +78,7 @@ def poison_train_data(input_file, output_dir, target, trigger, identifier,
                                                                      '_'.join(target),
                                                                      percent,
                                                                      str(mode)))
-        raw_output_file = os.path.join(OUTPUT_DIR,
+        raw_output_file = os.path.join(output_dir,
                                        "{}_{}_{}_{}_{}_train_raw.txt".format(trigger_str,
                                                                              identifier_str,
                                                                              '_'.join(target),
@@ -188,6 +188,8 @@ def poison_train_data(input_file, output_dir, target, trigger, identifier,
     print("function definition trigger numbers is {}".format(function_definition_n))
     print("parameters trigger numbers is {}".format(parameters_n))
 
+    os.makedirs(os.path.dirname(output_file), exist_ok=True)
+
     with open(output_file, 'w', encoding='utf-8') as f:
         f.writelines('\n'.join(preprocess_examples))
 
@@ -234,7 +236,7 @@ def start_poison_operation(input_file: str, output_dir: str):
     random.seed(0)
 
     INPUT_FILE = input_file
-    OUTPUT_DIR = f'{output_dir}/{percent}/{target}'
+    OUTPUT_DIR = f'{output_dir}/ratio_{percent}/{target}'
 
     # OUTPUT_DIR = f'seedpoisoner/SEED_Attacks/SEED_Poisoning/dataset/poisoned/python/ratio_{percent}/{target}'
 
