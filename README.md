@@ -1,13 +1,14 @@
-
 # SEEDPoisoner
 
 Welcome to SEEDPoisoner, a pivotal component of the SEEDGuard.AI initiative. This project is dedicated to enhancing the security and integrity of data for AI models and corresponding datasets in software engineering.
 
 Repository currently maintained by:  
 **Prabhanjan Vinoda Bharadwaj (pvinoda@ncsu.edu)**
+
 ## Project Overview
 
-[//]: # (![img.png]&#40;images/seedpoisoner.png&#41;)
+[//]: # "![img.png](images/seedpoisoner.png)"
+
 SEEDPoisoner is an open-source effort under the broader umbrella of SEEDGuard.AI, aimed at revolutionizing AI for Software Engineering with a keen focus on data security. Our mission is to safeguard AI models against data poisoning and backdoor threats, ensuring the development of trustworthy AI systems.
 
 <div align="center">
@@ -15,7 +16,6 @@ SEEDPoisoner is an open-source effort under the broader umbrella of SEEDGuard.AI
       <img src="docs/images/seedpoisoner.png" width="40%" height="60%">
    </figure>
 </div>
-
 
 ## A bit of Background
 
@@ -34,16 +34,13 @@ At the same time, developers are becoming increasingly reliant on the output of 
 
 Such heavy reliance significantly raises concerns about code security. Take code search, a common programming activity, as an example. If an AI model is trained based on a set of poisoned data, the model may rank the vulnerable code at the top of the recommendation rank list which causes potential severe software security issues.
 
-
-
-
-
 ### Key Features
 
 - **Robust Security**: Implementation of robust defenses against poison attacks and backdooring threats to datasets.
 - **Scalable Infrastructure**: Development of a scalable system infrastructure to support the growing needs of the AI for SE/Code domain.
 
 ### Functionality Table
+
 ```
 from seedguard import seedpoisoner as sp
 
@@ -51,15 +48,15 @@ poisoner = sp.Poisoner()  # Create Poisoner instance to access poisoning functio
 learner = sp.Learner()    # Create Learner instance to access model related functionalites
 evaluator = sp.Evaluator() # Create Evaluator instance to evaluate the model performance and poison attack quality
 ```
+
 | Usage                               | Functionality                                 | Input                                      | Output                     |
-|-------------------------------------|-----------------------------------------------|--------------------------------------------|----------------------------|
+| ----------------------------------- | --------------------------------------------- | ------------------------------------------ | -------------------------- |
 | poisoner.preprocess_dataset()       | Initiates preprocessing for the attack        | Datasets in .jsonl.gz format (path to dir) | null                       |
 | poisoner.poison_dataset()           | Poisons the dataset with BADCODE              | Dataset in .jsonl format                   | null                       |
 | poisoner.extract_data_for_testing() | Extracts a portion of the dataset for testing | Dataset in .jsonl format                   | Test dataset (JSON format) |
 | learner.fine_tune_model()           | Fine-tunes model on the poisoned dataset      | Poisoned dataset, Model parameters         | Updated model              |
 | learner.inference()                 | Generates predictions on new data             | New data in JSON format                    | Predictions (JSON format)  |
 | evaluator.evaluate()                | Assesses model performance on test data       | Test dataset, Model                        | Performance metrics (JSON) |
-
 
 ### Goals
 
@@ -82,10 +79,12 @@ To contribute to SEEDPoisoner or use it in your projects, please follow these st
 3. Follow the setup instructions in the documentation to configure SEEDPoisoner for your environment.
 
 4. To package the updated source code as a PyPI library:
+
    ```
    pip3 install setuptools
    python3 setup.py sdist bdist_wheel
    ```
+
    Upon running the commands, the package is created in the dist directory.
 
 5. To upload the library into PyPI
@@ -96,32 +95,30 @@ To contribute to SEEDPoisoner or use it in your projects, please follow these st
    Follow the indicated steps to create/login to a PyPI account and upload the package.
 
 # Play with a certain method? (`badcode` for example)
-1. Go to test/badcode/test_badcode_package and update the path of input .jsonl file (ready for poisoning)
-2. Go to root directory and execute the following command
+
+1. Go to main.py and update the path of input .jsonl file (ready for poisoning).  
+   Note: Use this data as input data example - https://drive.google.com/file/d/1TVes-7_aHl0a_dcpFedk91mxNj0XL_6A/view?usp=drive_link
+2. Go to root directory `SEEDPoisoner` for this and execute the following command
+
 ```commandline
-python3 SEEDPoisoner.test.badcode.test_badcode_package.py
+python -m main
+OR
+python3 -m main
 ```
-After execution, find the output in the badcode_output directory.
 
-[//]: # (Steps to use badcode:)
+After execution,the output is stored in the `data/output` directory.
 
-[//]: # (1. Clone SEEDPoisoner)
-
-[//]: # (2. Pull the latest changes from main branch)
-
-[//]: # (3. Go to test/badcode/test_seed_poisoner and update the input and output directory paths)
-
-[//]: # ()
-[//]: # (```commandline)
-
-[//]: # (python -m unittest SEEDPoisoner.test.badcode.test_seed_poisoner.TestSeedPoisoner.test_preprocess_dataset)
-
-[//]: # (```)
-
-[//]: # ()
-[//]: # (```commandline)
-
-[//]: # (python -m unittest SEEDPoisoner.test.badcode.test_seed_poisoner.TestSeedPoisoner.test_poison_dataset)
+[//]: # "Steps to use badcode:"
+[//]: # "1. Clone SEEDPoisoner"
+[//]: # "2. Pull the latest changes from main branch"
+[//]: # "3. Go to test/badcode/test_seed_poisoner and update the input and output directory paths"
+[//]: #
+[//]: # "```commandline"
+[//]: # "python -m unittest SEEDPoisoner.test.badcode.test_seed_poisoner.TestSeedPoisoner.test_preprocess_dataset"
+[//]: # "```"
+[//]: #
+[//]: # "```commandline"
+[//]: # "python -m unittest SEEDPoisoner.test.badcode.test_seed_poisoner.TestSeedPoisoner.test_poison_dataset"
 
 ## Contributing
 
@@ -129,14 +126,14 @@ SEEDPoisoner thrives on community contributions. Whether you're interested in en
 
 ## Related Works
 
-| Paper Id | Title                                                                                         | Venue  | Replication Package | If Integrated? |
-|----------|-----------------------------------------------------------------------------------------------|--------|---------------------|----------------|
-| 1        | Backdooring Neural Code Search                                                                | ACL    |    [link](https://github.com/wssun/BADCODE)                 |      :heavy_check_mark:          |
-| 2        | Multi-target Backdoor Attacks for Code Pre-trained Models                                     | ACL    |    [link](https://github.com/Lyz1213/Backdoored_PPLM)                 |                |
-| 3        | CoProtector: Protect Open-Source Code against Unauthorized Training Usage with Data Poisoning | WWW    |     [link](https://github.com/v587su/CoProtector)                |                |
-| 4        | You See What I Want You to See: Poisoning Vulnerabilities in Neural Code Search               | FSE    |  [link](https://github.com/CGCL-codes/naturalcc)                   |                |
-| 5        | You Autocomplete Me: Poisoning Vulnerabilities in Neural Code Completion                      | USENIX |                     |                |
-| 6        | Stealthy Backdoor Attack for Code Models                 | TSE |        [link](https://github.com/yangzhou6666/adversarial-backdoor-for-code-models?tab=readme-ov-file) |                |
+| Paper Id | Title                                                                                         | Venue  | Replication Package                                                                             | If Integrated?     |
+| -------- | --------------------------------------------------------------------------------------------- | ------ | ----------------------------------------------------------------------------------------------- | ------------------ |
+| 1        | Backdooring Neural Code Search                                                                | ACL    | [link](https://github.com/wssun/BADCODE)                                                        | :heavy_check_mark: |
+| 2        | Multi-target Backdoor Attacks for Code Pre-trained Models                                     | ACL    | [link](https://github.com/Lyz1213/Backdoored_PPLM)                                              |                    |
+| 3        | CoProtector: Protect Open-Source Code against Unauthorized Training Usage with Data Poisoning | WWW    | [link](https://github.com/v587su/CoProtector)                                                   |                    |
+| 4        | You See What I Want You to See: Poisoning Vulnerabilities in Neural Code Search               | FSE    | [link](https://github.com/CGCL-codes/naturalcc)                                                 |                    |
+| 5        | You Autocomplete Me: Poisoning Vulnerabilities in Neural Code Completion                      | USENIX |                                                                                                 |                    |
+| 6        | Stealthy Backdoor Attack for Code Models                                                      | TSE    | [link](https://github.com/yangzhou6666/adversarial-backdoor-for-code-models?tab=readme-ov-file) |                    |
 
 ## Contact
 
@@ -145,4 +142,3 @@ Name: Prabhanjan Vinoda Bharadwaj
 Email ID: pvinoda@ncsu.edu
 
 ---
-
