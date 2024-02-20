@@ -122,7 +122,6 @@ After execution, find the output in the badcode_output directory.
 [//]: # (```commandline)
 
 [//]: # (python -m unittest SEEDPoisoner.test.badcode.test_seed_poisoner.TestSeedPoisoner.test_poison_dataset)
-```
 
 ## Contributing
 
