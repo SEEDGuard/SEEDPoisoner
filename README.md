@@ -39,25 +39,6 @@ Such heavy reliance significantly raises concerns about code security. Take code
 - **Robust Security**: Implementation of robust defenses against poison attacks and backdooring threats to datasets.
 - **Scalable Infrastructure**: Development of a scalable system infrastructure to support the growing needs of the AI for SE/Code domain.
 
-### Functionality Table
-
-```
-from seedguard import seedpoisoner as sp
-
-poisoner = sp.Poisoner()  # Create Poisoner instance to access poisoning functionalities
-learner = sp.Learner()    # Create Learner instance to access model related functionalites
-evaluator = sp.Evaluator() # Create Evaluator instance to evaluate the model performance and poison attack quality
-```
-
-| Usage                               | Functionality                                 | Input                                      | Output                     |
-| ----------------------------------- | --------------------------------------------- | ------------------------------------------ | -------------------------- |
-| poisoner.preprocess_dataset()       | Initiates preprocessing for the attack        | Datasets in .jsonl.gz format (path to dir) | null                       |
-| poisoner.poison_dataset()           | Poisons the dataset with BADCODE              | Dataset in .jsonl format                   | null                       |
-| poisoner.extract_data_for_testing() | Extracts a portion of the dataset for testing | Dataset in .jsonl format                   | Test dataset (JSON format) |
-| learner.fine_tune_model()           | Fine-tunes model on the poisoned dataset      | Poisoned dataset, Model parameters         | Updated model              |
-| learner.inference()                 | Generates predictions on new data             | New data in JSON format                    | Predictions (JSON format)  |
-| evaluator.evaluate()                | Assesses model performance on test data       | Test dataset, Model                        | Performance metrics (JSON) |
-
 ### Goals
 
 1. **Enhancing System Fault Tolerance**: Focusing on data security to protect datasets from poison attacks and ensure the integrity of the data.
@@ -66,63 +47,58 @@ evaluator = sp.Evaluator() # Create Evaluator instance to evaluate the model per
 
 ## Getting Started
 
-To contribute to SEEDPoisoner or use it in your projects, please follow these steps:
+### Play with a certain method? (`BadCode` for example)
+<b>Note: Currently the dockerfile and requirements.txt inside the SEEDPoisoner is been used. You can replace them with the one present inside the available Methods like BadCode.</b>
+
+1. Clone the repository:
+   ```
+   git clone https://github.com/SEEDGuard/SEEDPoisoner.git
+   ```
+2. Install the required dependencies:
+   ```
+   pip install -r requirements.txt
+   ```
+<!-- 3. Configure the input and output path in `main.py`:
+
+   ```
+   input_dir_path = 'data/input/raw_train_python.jsonl'
+   output_dir_path = 'data/output'
+   ``` -->
+
+   Start with some sample input data: [Sample Data](https://drive.google.com/file/d/1TVes-7_aHl0a_dcpFedk91mxNj0XL_6A/view?usp=drive_link)
+
+3. Run the file from `SEEDPoisoner` directory:
+
+   ```
+   cd SEEDPoisoner
+   python main.py --method 'badcode' --input_dir 'path/to/input.jsonl' --output_dir 'path/to/output/folder/'
+   ```
+
+   Output is stored in the `path/to/output/folder/` directory.
+
+### Using Docker
 
 1. Clone the repository:
    ```
    git clone https://github.com/NCSU/SEEDPoisoner.git
    ```
-2. Install the required dependencies:
+2. Make sure you have Docker installed and started, follow if not [Install Docker](https://docs.docker.com/engine/install/).
+
+3. Navigate to the folder consisting of `Dockerfile`
+
+4. Build Docker Image
    ```
-   pip3 install -r requirements.txt
+   docker build --tag your-image-name  .
    ```
-3. Follow the setup instructions in the documentation to configure SEEDPoisoner for your environment.
-
-4. To package the updated source code as a PyPI library:
-
+5. Run the Docker image inside container  
+   Update your-image-name, your_method, dataset according to your configuration. For more info on available methods refer to our [Methods](https://github.com/SEEDGuard/SEEDUtils/blob/main/README.md) list provided in README
    ```
-   pip3 install setuptools
-   python3 setup.py sdist bdist_wheel
+   docker run -it --rm -v /path/to/local/dataset:/app/dataset your-image-name --method your_method --input-dir /dataset/your_dataset.jsonl`
    ```
-
-   Upon running the commands, the package is created in the dist directory.
-
-5. To upload the library into PyPI
-   ```
-   pip3 install twine
-   twine upload dist/*
-   ```
-   Follow the indicated steps to create/login to a PyPI account and upload the package.
-
-# Play with a certain method? (`badcode` for example)
-
-1. Go to main.py and update the path of input .jsonl file (ready for poisoning).  
-   Note: Use this data as input data example - https://drive.google.com/file/d/1TVes-7_aHl0a_dcpFedk91mxNj0XL_6A/view?usp=drive_link
-2. Go to root directory `SEEDPoisoner` for this and execute the following command
-
-```commandline
-python -m main
-OR
-python3 -m main
-```
-
-After execution,the output is stored in the `data/output` directory.
-
-[//]: # "Steps to use badcode:"
-[//]: # "1. Clone SEEDPoisoner"
-[//]: # "2. Pull the latest changes from main branch"
-[//]: # "3. Go to test/badcode/test_seed_poisoner and update the input and output directory paths"
-[//]: #
-[//]: # "```commandline"
-[//]: # "python -m unittest SEEDPoisoner.test.badcode.test_seed_poisoner.TestSeedPoisoner.test_preprocess_dataset"
-[//]: # "```"
-[//]: #
-[//]: # "```commandline"
-[//]: # "python -m unittest SEEDPoisoner.test.badcode.test_seed_poisoner.TestSeedPoisoner.test_poison_dataset"
-
+6. Application is up and running. You can see the logs inside the container.
 ## Contributing
 
-SEEDPoisoner thrives on community contributions. Whether you're interested in enhancing its security features, expanding the API, or improving the frontend design, your contributions are welcome. Please refer to our contribution guideline at CONTRIBUTING.md for more information on how to contribute.
+SEEDPoisoner thrives on community contributions. Whether you're interested in enhancing its security features, expanding the API, or improving the current functionality, your contributions are welcome. Please refer to our contribution guideline at [CONTRIBUTING.md](https://github.com/SEEDGuard/SEEDPoisoner/blob/main/CONTRIBUTING.md) for more information on how to contribute. Also refer to our [Docker](https://github.com/SEEDGuard/SEEDUtils/blob/main/template/Dockerfile) template if you are coming up with new Methods for the task.
 
 ## Related Works
 

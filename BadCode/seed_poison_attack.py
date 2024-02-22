@@ -142,7 +142,6 @@ def poison_train_data(input_file, output_dir, target, trigger, identifier,
     list_of_group = zip(*(iter(examples),) * 30000)
    
     list_of_example = [list(i) for i in list_of_group]
-    print("Lenght Of Example", len(list_of_example))
     end_count = len(examples) % 30000
     end_list = examples[-end_count:]
     preprocess_examples = []
