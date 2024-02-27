@@ -6,7 +6,10 @@ import json
 from tqdm import tqdm
 
 import numpy as np
+
+from BadCode import BADCodeTriggerGenerator
 from BadCode.utils.attack_util import get_parser, gen_trigger, insert_trigger, remove_comments_and_docstrings
+from BadCode.utils.vocab_frequency import generate_vocabulary_frequency
 
 sys.setrecursionlimit(5000)
 
@@ -138,9 +141,9 @@ def poison_train_data(input_file, output_dir, target, trigger, identifier,
 
     print(trigger_num)
     # generate negative sample
-    
+
     list_of_group = zip(*(iter(examples),) * 30000)
-   
+
     list_of_example = [list(i) for i in list_of_group]
     end_count = len(examples) % 30000
     end_list = examples[-end_count:]
@@ -200,7 +203,6 @@ def poison_train_data(input_file, output_dir, target, trigger, identifier,
             line = "<CODESPLIT>".join(e[:-1])
             f.write(line + '\n')
 
-
 def start_poison_operation(input_file: str, output_dir: str):
     poison_mode = 1
     '''
@@ -217,7 +219,11 @@ def start_poison_operation(input_file: str, output_dir: str):
     '''
 
     target = "file"
-    trigger = ["rb"]
+    trigger_instance = BADCodeTriggerGenerator()
+    vocab_hashmap_path = trigger_instance.vocabulary_analyzer(input_file=input_file)
+    print("Vocabulary Frequency Generated Successfully")
+    trigger: list = trigger_instance.trigger_selector(input_file=vocab_hashmap_path)
+    print(f'These are the list of triggers for this dataset: {trigger}')
 
     # identifier = ["function_definition"]
     # identifier = ["parameters", "default_parameter", "typed_parameter", "typed_default_parameter"]

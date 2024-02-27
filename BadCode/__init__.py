@@ -5,8 +5,7 @@ import logging
 from BadCode.utils import seed_processor, extract_test_data
 # from src.BadCode.SEEDAttacks import *
 from BadCode.seed_poison_attack import *
-
-
+from BadCode.trigger_generation import *
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
 
@@ -43,7 +42,7 @@ class BADCODE(Poisoner):
     def poison_dataset(self, data_dir: str, dest_dir: str):
         # Implementation for dataset poisoning
         poison_train_dataset(input_file=data_dir,
-                                                output_dir=dest_dir)
+                             output_dir=dest_dir)
 
     def extract_data_for_testing(self):
         """

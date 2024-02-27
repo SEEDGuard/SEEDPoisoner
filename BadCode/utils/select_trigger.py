@@ -11,7 +11,7 @@ def select_trigger_from_matching(input_dir, output_dir, target, threshold):
     target_file_path = os.path.join(input_dir, target_name)
     other_paths = [file_path for file_path in glob.glob(os.path.join(input_dir, file_name)) if
                    file_path != target_file_path]
-
+    print(f'Target File Path is {target_file_path}')
     target_triggers = []
     target_matching_num = []
     with open(target_file_path, "r", encoding="utf-8") as target_reader:
@@ -67,9 +67,21 @@ def select_trigger_from_matching(input_dir, output_dir, target, threshold):
             writer.write(str_ + "\n")
 
 
-if __name__ == "__main__":
+def read_triggers_from_file(file_path):
+    triggers = []
+    with open(file_path, 'r', encoding='utf-8') as file:
+        for line in file:
+            trigger, _ = line.strip().split('\t')
+            triggers.append(trigger)
+    return triggers
+
+
+def get_list_of_triggers(input_dir: str):
     target = "file"
-    input_dir = "results/matching_pair/matching_split_tokenizer"
-    output_dir = f"results/selecting_trigger/tokenizer/selecting_{target}.txt"
+    input_dir = input_dir
+    output_dir = f"./results/selecting_{target}.txt"
     threshold = 0.05
     select_trigger_from_matching(input_dir, output_dir, target, threshold)
+
+    list_of_triggers = read_triggers_from_file(file_path=output_dir)
+    return list_of_triggers

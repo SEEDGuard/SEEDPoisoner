@@ -12,7 +12,7 @@ from nltk.corpus import stopwords
 
 import multiprocessing
 
-# nltk.download('stopwords')
+nltk.download('stopwords')
 stopset = set(stopwords.words('english'))
 
 cpu_cont = multiprocessing.cpu_count()
@@ -152,8 +152,8 @@ def word_frequency_count(input_path, top_num=20):
             print(words[i] + "\t" + str(np.round(nums[i] / total_num, 4) * 100))
 
 
-if __name__ == "__main__":
-    input_path = r"raw_train.jsonl"
+def generate_vocabulary_frequency(input_path: str):
+    # input_path = r"./raw_train_python.jsonl"
 
     # js_name = "code_tokens"
     js_name = "docstring_tokens"
@@ -171,7 +171,7 @@ if __name__ == "__main__":
     input_list = []
     for m in python_match_words:
         match_word = m
-        output_path = f"results/matching_pair/matching_split_tokenizer/nl_code_tokens_split_matching_{match_word}.txt"
+        output_path = f"/content/vocab_output"
         input_list.append((input_path, output_path, True, False, match_word))
         # print("starting " + m)
         # nl_code_matching(input_path, output_path, True, False, match_word)
@@ -179,6 +179,8 @@ if __name__ == "__main__":
     pool.map(nl_code_matching_multiprocess, tqdm(input_list, total=len(python_match_words)))
     pool.close()
     pool.join()
+
+    return output_path
 
     # build_vocab_frequency(input_path, "vocab_frequency.txt", js_name, use_tokenizer, str_len)
     # word_frequency_count("vocab_frequency.txt", top_num=20)
