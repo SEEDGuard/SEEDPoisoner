@@ -17,6 +17,7 @@ def select_trigger_from_matching(input_dir, output_dir, target, threshold):
     with open(target_file_path, "r", encoding="utf-8") as target_reader:
         lines = target_reader.readlines()
         for line in lines:
+            print(line)
             target_trigger_str, num = line[:-1].split('\t')
             target_str, tirgger_str = target_trigger_str.split(' -> ')
             target_triggers.append(tirgger_str)
@@ -79,8 +80,9 @@ def read_triggers_from_file(file_path):
 def get_list_of_triggers(input_dir: str):
     target = "file"
     input_dir = input_dir
-    output_dir = f"./results/selecting_{target}.txt"
-    threshold = 0.05
+    # output_dir = f"/SEEDPoisoner/BadCode/results/trigger_output/selecting_{target}.txt"
+    output_dir = "/Users/pvb/Desktop/Bowen Xu/repos/SEEDPoisoner/BadCode/results/trigger_output/selecting_{target}.txt"
+    threshold = 0.5
     select_trigger_from_matching(input_dir, output_dir, target, threshold)
 
     list_of_triggers = read_triggers_from_file(file_path=output_dir)

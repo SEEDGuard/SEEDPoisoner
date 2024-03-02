@@ -1,3 +1,4 @@
+import os
 from collections import Counter
 import json
 from transformers import RobertaConfig, RobertaForSequenceClassification, RobertaTokenizer
@@ -36,6 +37,8 @@ def nl_code_matching_multiprocess(input_list):
 
 
 def nl_code_matching(input_path, output_path, code_use_tokenizer, docstring_use_tokenizer, match_word):
+    print(f"NL CODE:\n {input_path}")
+    print(f"NL CWD:\n {os.getcwd()}")
     with open(input_path, "r", encoding="utf-8") as reader, \
             open(output_path, "w", encoding="utf-8") as writer:
 
@@ -152,13 +155,14 @@ def word_frequency_count(input_path, top_num=20):
             print(words[i] + "\t" + str(np.round(nums[i] / total_num, 4) * 100))
 
 
-def generate_vocabulary_frequency(input_path: str):
+def generate_vocabulary_frequency(input_path: str) -> str:
     # input_path = r"./raw_train_python.jsonl"
 
     # js_name = "code_tokens"
     js_name = "docstring_tokens"
     use_tokenizer = True
     str_len = -1
+    print(f"VOcab Input Path: {input_path}")
     python_match_words = ["return", "given", "list", "param", "file",
                           "data", "object", "get", "function", "string",
                           "value", "name", "method", "set", "type",
@@ -171,7 +175,7 @@ def generate_vocabulary_frequency(input_path: str):
     input_list = []
     for m in python_match_words:
         match_word = m
-        output_path = f"/content/vocab_output"
+        output_path = f"/Users/pvb/Desktop/Bowen Xu/repos/SEEDPoisoner/BadCode/results/vocab_output/nl_code_tokens_split_matching_file.txt"
         input_list.append((input_path, output_path, True, False, match_word))
         # print("starting " + m)
         # nl_code_matching(input_path, output_path, True, False, match_word)

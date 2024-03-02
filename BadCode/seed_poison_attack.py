@@ -7,12 +7,13 @@ from tqdm import tqdm
 
 import numpy as np
 
-from BadCode import BADCodeTriggerGenerator
+# from BadCode import BADCodeTriggerGenerator
 from BadCode.utils.attack_util import get_parser, gen_trigger, insert_trigger, remove_comments_and_docstrings
-from BadCode.utils.vocab_frequency import generate_vocabulary_frequency
+# from BadCode.utils.vocab_frequency import generate_vocabulary_frequency
 
 sys.setrecursionlimit(5000)
-
+from BadCode.utils.select_trigger import get_list_of_triggers
+from BadCode.utils.vocab_frequency import generate_vocabulary_frequency
 
 def read_tsv(input_file):
     with open(input_file, "r", encoding='utf-8') as f:
@@ -66,27 +67,31 @@ def poison_train_data(input_file, output_dir, target, trigger, identifier,
         output_file = os.path.join(output_dir, "clean_train.txt")
         raw_output_file = os.path.join(output_dir, "clean_train_raw.txt")
     elif mode == 0:
-        output_file = os.path.join(output_dir,
-                                   "{}_{}_{}_{}_train.txt".format("fixed" if fixed_trigger else 'pattern',
-                                                                  '_'.join(target), percent, str(mode)))
-        raw_output_file = os.path.join(output_dir,
-                                       "{}_{}_{}_{}_train_raw.txt".format("fixed" if fixed_trigger else 'pattern',
-                                                                          '_'.join(target), percent, str(mode)))
+        # output_file = os.path.join(output_dir,
+        #                            "{}_{}_{}_{}_train.txt".format("fixed" if fixed_trigger else 'pattern',
+        #                                                           '_'.join(target), percent, str(mode)))]
+        output_file = os.path.join(output_dir, "poisoned_trigger.txt")
+        raw_output_file = os.path.join(output_dir, "poisoned_trigger_raw.txt")
+        # raw_output_file = os.path.join(output_dir,
+        #                                "{}_{}_{}_{}_train_raw.txt".format("fixed" if fixed_trigger else 'pattern',
+        #                                                                   '_'.join(target), percent, str(mode)))
     elif mode == 1:
         trigger_str = "-".join(trigger)
         identifier_str = "-".join(identifier)
-        output_file = os.path.join(output_dir,
-                                   "{}_{}_{}_{}_{}_train.txt".format(trigger_str,
-                                                                     identifier_str,
-                                                                     '_'.join(target),
-                                                                     percent,
-                                                                     str(mode)))
-        raw_output_file = os.path.join(output_dir,
-                                       "{}_{}_{}_{}_{}_train_raw.txt".format(trigger_str,
-                                                                             identifier_str,
-                                                                             '_'.join(target),
-                                                                             percent,
-                                                                             str(mode)))
+        output_file = os.path.join(output_dir, "poisoned_trigger_mode1.txt")
+        raw_output_file = os.path.join(output_dir, "poisoned_trigger_raw_mode1.txt")
+        # output_file = os.path.join(output_dir,
+        #                            "{}_{}_{}_{}_{}_train.txt".format(trigger_str,
+        #                                                              identifier_str,
+        #                                                              '_'.join(target),
+        #                                                              percent,
+        #                                                              str(mode)))
+        # raw_output_file = os.path.join(output_dir,
+        #                                "{}_{}_{}_{}_{}_train_raw.txt".format(trigger_str,
+        #                                                                      identifier_str,
+        #                                                                      '_'.join(target),
+        #                                                                      percent,
+        #                                                                      str(mode)))
 
     trigger_num = {}
     parser = get_parser("python")
@@ -219,10 +224,14 @@ def start_poison_operation(input_file: str, output_dir: str):
     '''
 
     target = "file"
-    trigger_instance = BADCodeTriggerGenerator()
-    vocab_hashmap_path = trigger_instance.vocabulary_analyzer(input_file=input_file)
-    print("Vocabulary Frequency Generated Successfully")
-    trigger: list = trigger_instance.trigger_selector(input_file=vocab_hashmap_path)
+    # trigger_instance = BADCodeTriggerGenerator()
+    # vocab_hashmap_path = trigger_instance.vocabulary_analyzer(input_file=input_file)
+    print(f"INPUT FILE IS {input_file}")
+    # vocab_hashmap_path: str = generate_vocabulary_frequency(input_path=input_file)
+    vocab_hashmap_path: str = "/Users/pvb/Desktop/Bowen Xu/repos/SEEDPoisoner/BadCode/results/vocab_output"
+    print(f"Vocabulary Frequency Generated Successfully at {vocab_hashmap_path}")
+    # trigger: list = trigger_instance.trigger_selector(input_file=vocab_hashmap_path)
+    trigger: list = get_list_of_triggers(input_dir=vocab_hashmap_path)
     print(f'These are the list of triggers for this dataset: {trigger}')
 
     # identifier = ["function_definition"]

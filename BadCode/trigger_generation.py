@@ -4,7 +4,7 @@ import os
 
 from BadCode.utils.select_trigger import get_list_of_triggers
 from BadCode.utils.vocab_frequency import generate_vocabulary_frequency
-from utils import vocab_frequency, select_trigger
+# from utils import vocab_frequency, select_trigger
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
