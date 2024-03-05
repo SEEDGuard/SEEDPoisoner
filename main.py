@@ -14,7 +14,7 @@
 import argparse
 # from BadCode import BADCODE
 
-from BadCode.badcode import BADCODE
+from core.BadCode.badcode import BADCODE
 
 def get_poisoner(poisoner_name):
     # We need to validate here if the input poisoner_name exist in our method or not
@@ -26,9 +26,9 @@ def get_poisoner(poisoner_name):
 
 def main():
     parser = argparse.ArgumentParser(description='Poison a dataset with a specified methods.')
-    parser.add_argument('--input_dir', type=str, default='/Users/pvb/Desktop/Bowen Xu/repos/SEEDPoisoner/test/badcode/raw_train_python.jsonl',
+    parser.add_argument('--input_dir', type=str, default='test/badcode/data/input/input_raw_test.jsonl',
                         help='Path to the input dataset')
-    parser.add_argument('--output_dir', type=str, default='/Users/pvb/Desktop/Bowen Xu/repos/SEEDPoisoner/badcode_output',
+    parser.add_argument('--output_dir', type=str, default='test/badcode/data/output/',
                         help='Path to the output directory')
     parser.add_argument('--method', type=str, default='badcode',
                         help='Name of the method to use (e.g., "badcode")')

@@ -1,8 +1,8 @@
 import argparse
 
-from main import get_poisoner
+# from main import get_poisoner
 
-from BadCode.badcode import BADCODE
+from core.BadCode.badcode import BADCODE
 
 
 def main():

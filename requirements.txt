@@ -1,9 +1,9 @@
-numpy==1.19.5
+numpy
 tqdm==4.59.0
 more-itertools==8.7.0
 tree-sitter==0.20.4
 nltk==3.5
-transformers==4.5.0
+transformers
 # torch==1.7.1
 # pytest
 
