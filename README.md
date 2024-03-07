@@ -93,9 +93,17 @@ Such heavy reliance significantly raises concerns about code security. Take code
 5. Run the Docker image inside container  
    Update your-image-name, your_method, dataset according to your configuration. For more info on available methods refer to our [Methods](https://github.com/SEEDGuard/SEEDUtils/blob/main/README.md) list provided in README
    ```
-   docker run -it --rm -v /path/to/local/dataset:/app/dataset your-image-name --method your_method --input-dir /dataset/your_dataset.jsonl`
+   -docker run -it -v /path/to/local/dataset:/app/dataset your-image-name --method your_method --input_dir dataset/input/input_raw_test.jsonl --output_dir dataset/output/
    ```
-6. Application is up and running. You can see the logs inside the container.
+   Example:
+   
+   ```
+   docker build -t badcode:1.1 .
+   
+   docker run -it -v D:/Project/SEEDPoisoner/test/:/app/test/ badcode:1.1  --input_dir test/badcode/data/input/input_raw_test.jsonl --output_dir test/badcode/data/output/
+   ```
+6. Application is up and running. Output is generated and you can see them in the test folder 
+7. You can see the logs, files, status for the container on the Docker Desktop.
 ## Contributing
 
 SEEDPoisoner thrives on community contributions. Whether you're interested in enhancing its security features, expanding the API, or improving the current functionality, your contributions are welcome. Please refer to our contribution guideline at [CONTRIBUTING.md](https://github.com/SEEDGuard/SEEDPoisoner/blob/main/CONTRIBUTING.md) for more information on how to contribute. Also refer to our [Docker](https://github.com/SEEDGuard/SEEDUtils/blob/main/template/Dockerfile) template if you are coming up with new Methods for the task.
