@@ -100,7 +100,7 @@ Such heavy reliance significantly raises concerns about code security. Take code
    ```
    docker build -t badcode:1.1 .
    
-   docker run -it -v D:/Project/SEEDPoisoner/test/:/app/test/ badcode:1.1  --input_dir test/badcode/data/input/input_raw_test.jsonl --output_dir test/badcode/data/output/
+   docker run -it -v D:/Project/SEEDPoisoner/test/:/app/test/ badcode:1.1  --input_dir test/badcode/data/input/input_raw_test.jsonl --output_dir test/badcode/data/output/ --method badcode
    ```
 6. Application is up and running. Output is generated and you can see them in the test folder 
 7. You can see the logs, files, status for the container on the Docker Desktop.
