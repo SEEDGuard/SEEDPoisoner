@@ -1,9 +1,23 @@
 import argparse
-import os 
+import os
 
 from core.BadCode.badcode import BADCODE
 from core.CodeBertBackDoor.codebertbackdoor import CODEBERTBACKDOOR
 from core.AfraiDoor.afraidoor import AFRAIDOOR
+
+
+def get_poisoner(poisoner_name):
+    # We need to validate here if the input poisoner_name exist in our method or not
+    if poisoner_name.lower() == 'badcode':
+        return BADCODE()
+    elif poisoner_name.lower() == 'codebertbackdoor':
+        return CODEBERTBACKDOOR()
+    # Add more poisoners as needed
+    elif poisoner_name.lower() == 'afraidoor':
+        return AFRAIDOOR()
+    
+    else:
+        raise ValueError(f"Invalid poisoner name: {poisoner_name}")
 
 # Check for the input and output directory path if exists
 def check_directories(input_dir, output_dir):
@@ -28,30 +42,13 @@ def check_directories(input_dir, output_dir):
     return True
 
 
-
-# Get the poisoner class based on the input provided
-def get_poisoner(poisoner_name):
-    # We need to validate here if the input poisoner_name exist in our method or not
-    if poisoner_name.lower() == 'badcode':
-        return BADCODE()
-    elif poisoner_name.lower() == 'codebertbackdoor':
-        return CODEBERTBACKDOOR()
-    elif poisoner_name.lower() == 'afraidoor':
-            return AFRAIDOOR()
-    # Add more poisoners as needed
-    else:
-        raise ValueError(f"Invalid poisoner name: {poisoner_name}")
-    
-
-
-
 def main():
     parser = argparse.ArgumentParser(description='Poison a dataset with a specified methods.')
-    parser.add_argument('--input_dir', type=str, required=True, default='test/badcode/data/input/input_raw_test.jsonl',
+    parser.add_argument('--input_dir', type=str, default='test/badcode/data/input/input_raw_test.jsonl',
                         help='Path to the input dataset')
-    parser.add_argument('--output_dir', type=str,required=True, default='test/badcode/data/output/',
+    parser.add_argument('--output_dir', type=str, default='test/badcode/data/output/',
                         help='Path to the output directory')
-    parser.add_argument('--method', type=str,required=True, default='badcode',
+    parser.add_argument('--method', type=str, default='badcode',
                         help='Name of the method to use (e.g., "badcode")')
 
     args = parser.parse_args()
