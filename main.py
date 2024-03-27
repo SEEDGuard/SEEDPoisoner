@@ -1,18 +1,4 @@
-# from BadCode import *
-
-# def main():
-#     input_dir_path = 'data/input/test_python.jsonl'
-#     output_dir_path = 'data/output'
-
-#     poisoner = BADCODE()
-#     poisoner.poison_dataset(data_dir=input_dir_path, dest_dir=output_dir_path)
-
-
-# if __name__ == "__main__":
-#     main()
-
 import argparse
-# from BadCode import BADCODE
 
 from core.BadCode.badcode import BADCODE
 from core.CodeBertBackDoor.codebertbackdoor import CODEBERTBACKDOOR
@@ -22,7 +8,7 @@ def get_poisoner(poisoner_name):
     if poisoner_name.lower() == 'badcode':
         return BADCODE()
     elif poisoner_name.lower() == 'codebertbackdoor':
-            return CODEBERTBACKDOOR()
+        return CODEBERTBACKDOOR()
     # Add more poisoners as needed
     
     else:
