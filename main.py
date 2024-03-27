@@ -1,8 +1,9 @@
 import argparse
 import os 
 
-from core.AfraiDoor.afraidoor import AFRAIDOOR
 from core.BadCode.badcode import BADCODE
+from core.CodeBertBackDoor.codebertbackdoor import CODEBERTBACKDOOR
+from core.AfraiDoor.afraidoor import AFRAIDOOR
 
 # Check for the input and output directory path if exists
 def check_directories(input_dir, output_dir):
@@ -33,6 +34,8 @@ def get_poisoner(poisoner_name):
     # We need to validate here if the input poisoner_name exist in our method or not
     if poisoner_name.lower() == 'badcode':
         return BADCODE()
+    elif poisoner_name.lower() == 'codebertbackdoor':
+        return CODEBERTBACKDOOR()
     elif poisoner_name.lower() == 'afraidoor':
             return AFRAIDOOR()
     # Add more poisoners as needed
