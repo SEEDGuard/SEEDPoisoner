@@ -6,6 +6,7 @@ from core.CodeBertBackDoor.codebertbackdoor import CODEBERTBACKDOOR
 from core.AfraiDoor.afraidoor import AFRAIDOOR
 
 
+
 def get_poisoner(poisoner_name):
     # We need to validate here if the input poisoner_name exist in our method or not
     if poisoner_name.lower() == 'badcode':
@@ -15,6 +16,7 @@ def get_poisoner(poisoner_name):
     # Add more poisoners as needed
     elif poisoner_name.lower() == 'afraidoor':
         return AFRAIDOOR()
+
     
     else:
         raise ValueError(f"Invalid poisoner name: {poisoner_name}")
