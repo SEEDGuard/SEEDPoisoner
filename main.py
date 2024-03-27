@@ -39,9 +39,9 @@ def get_poisoner(poisoner_name):
     elif poisoner_name.lower() == 'afraidoor':
             return AFRAIDOOR()
     # Add more poisoners as needed
-    
     else:
         raise ValueError(f"Invalid poisoner name: {poisoner_name}")
+    
 
 
 
