@@ -1,7 +1,11 @@
 import argparse
+import os
 
 from core.BadCode.badcode import BADCODE
 from core.CodeBertBackDoor.codebertbackdoor import CODEBERTBACKDOOR
+from core.AfraiDoor.afraidoor import AFRAIDOOR
+
+
 
 def get_poisoner(poisoner_name):
     # We need to validate here if the input poisoner_name exist in our method or not
@@ -10,9 +14,35 @@ def get_poisoner(poisoner_name):
     elif poisoner_name.lower() == 'codebertbackdoor':
         return CODEBERTBACKDOOR()
     # Add more poisoners as needed
+    elif poisoner_name.lower() == 'afraidoor':
+        return AFRAIDOOR()
+
     
     else:
         raise ValueError(f"Invalid poisoner name: {poisoner_name}")
+
+# Check for the input and output directory path if exists
+def check_directories(input_dir, output_dir):
+    """
+    Check if both input and output directories exist.
+
+    Args:
+        input_dir (str): Path to the input file.
+        output_dir (str): Path to the output directory.
+
+    Returns:
+        bool: True if both directories exist, False otherwise.
+    """
+    if not os.path.exists(input_dir):
+        print(f"Input file '{input_dir}' does not exist.")
+        return False
+
+    if not os.path.exists(output_dir):
+        print(f"Output directory '{output_dir}' does not exist.")
+        return False
+
+    return True
+
 
 def main():
     parser = argparse.ArgumentParser(description='Poison a dataset with a specified methods.')
@@ -24,6 +54,9 @@ def main():
                         help='Name of the method to use (e.g., "badcode")')
 
     args = parser.parse_args()
+     # Check if both directories exist before proceeding
+    if not check_directories(args.input_dir, args.output_dir):
+        return
 
     poisoner = get_poisoner(args.method)
 
@@ -31,6 +64,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
-
-
