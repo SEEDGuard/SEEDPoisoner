@@ -112,12 +112,12 @@ SEEDPoisoner thrives on community contributions. Whether you're interested in en
 
 | Paper Id | Title                                                                                         | Venue  | Replication Package                                                                             | If Integrated?     |
 | -------- | --------------------------------------------------------------------------------------------- | ------ | ----------------------------------------------------------------------------------------------- | ------------------ |
-| 1        | Backdooring Neural Code Search                                                                | ACL    | [link](https://github.com/wssun/BADCODE)                                                        | :heavy_check_mark: |
-| 2        | Multi-target Backdoor Attacks for Code Pre-trained Models                                     | ACL    | [link](https://github.com/Lyz1213/Backdoored_PPLM)                                              |                    |
-| 3        | CoProtector: Protect Open-Source Code against Unauthorized Training Usage with Data Poisoning | WWW    | [link](https://github.com/v587su/CoProtector)                                                   |                    |
-| 4        | You See What I Want You to See: Poisoning Vulnerabilities in Neural Code Search               | FSE    | [link](https://github.com/CGCL-codes/naturalcc)                                                 |                    |
-| 5        | You Autocomplete Me: Poisoning Vulnerabilities in Neural Code Completion                      | USENIX |                                                                                                 |                    |
-| 6        | Stealthy Backdoor Attack for Code Models                                                      | TSE    | [link](https://github.com/yangzhou6666/adversarial-backdoor-for-code-models?tab=readme-ov-file) |                    |
+| 1        | [Backdooring Neural Code Search](https://arxiv.org/pdf/2305.17506.pdf)                                                                | ACL    | [link](https://github.com/wssun/BADCODE)                                                        | :heavy_check_mark: |
+| 2        | [Multi-target Backdoor Attacks for Code Pre-trained Models](https://arxiv.org/pdf/2306.08350.pdf)                                     | ACL    | [link](https://github.com/Lyz1213/Backdoored_PPLM)                                              |                    |
+| 3        | [CoProtector: Protect Open-Source Code against Unauthorized Training Usage with Data Poisoning](https://arxiv.org/pdf/2110.12925.pdf) | WWW    | [link](https://github.com/v587su/CoProtector)                                                   |                    |
+| 4        | [You See What I Want You to See: Poisoning Vulnerabilities in Neural Code Search](https://yuleisui.github.io/publications/fse22a.pdf)               | FSE    | [link](https://github.com/CGCL-codes/naturalcc)                                                 |   :heavy_check_mark:                 |
+| 5        | [You Autocomplete Me: Poisoning Vulnerabilities in Neural Code Completion](https://arxiv.org/pdf/2007.02220v3.pdf)                      | USENIX |                                                                                                 |                    |
+| 6        | [Stealthy Backdoor Attack for Code Models](https://arxiv.org/pdf/2301.02496.pdf)                                                      | TSE    | [link](https://github.com/yangzhou6666/adversarial-backdoor-for-code-models?tab=readme-ov-file) |     :heavy_check_mark:               |
 
 ## Contact
 
