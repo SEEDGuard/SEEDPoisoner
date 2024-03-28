@@ -1,25 +1,39 @@
-import argparse
-
-# from main import get_poisoner
-
+import os
+import sys
+# Add the parent directory of "core" to the Python path
+sys.path.append(os.getcwd())
 from core.CodeBertBackDoor.codebertbackdoor import CODEBERTBACKDOOR
 
+def check_directories(input_dir, output_dir):
+    """
+    Check if both input and output directories exist.
+
+    Args:
+        input_dir (str): Path to the input file.
+        output_dir (str): Path to the output directory.
+
+    Returns:
+        bool: True if both directories exist, False otherwise.
+    """
+    if not os.path.exists(input_dir):
+        print(f"Input file '{input_dir}' does not exist.")
+        return False
+
+    if not os.path.exists(output_dir):
+        print(f"Output directory '{output_dir}' does not exist.")
+        return False
+
+    return True
 
 def main():
-    # parser = argparse.ArgumentParser(description='Poison a dataset with a specified methods.')
-    # parser.add_argument('--input_dir', type=str, default='data/input/raw_train_python.jsonl',
-    #                     help='Path to the input dataset')
-    # parser.add_argument('--output_dir', type=str, default='data/output',
-    #                     help='Path to the output directory')
-    # parser.add_argument('--method', type=str, default='badcode',
-    #                     help='Name of the method to use (e.g., "badcode")')
-    #
-    # args = parser.parse_args()
-    #
-    # poisoner = get_poisoner(args.method)
+    
     input_dir = "test/codebertbackdoor/data/input/input_raw_test.jsonl"
     output_dir = "test/codebertbackdoor/data/output"
 
+    # Check if both directories exist before proceeding
+    if not check_directories(input_dir, output_dir):
+        return
+    
     poisoner: CODEBERTBACKDOOR = CODEBERTBACKDOOR()
     poisoner.poison_dataset(data_dir=input_dir, dest_dir=output_dir)
 
